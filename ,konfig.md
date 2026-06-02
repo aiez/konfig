@@ -7,7 +7,7 @@
 [![Author](https://img.shields.io/badge/Author-timm-dc143c?logo=readme&logoColor=white)](https://timm.fyi)
 
 
-### Ample
-Sample multiple models via different inductive biases.
+### Konfig
+All my config files.
 
 http://tiny.cc/ample
