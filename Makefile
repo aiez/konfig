@@ -45,6 +45,7 @@ ALLTOOLS := gawk:help/hist git:push nvim:vi/sh tmux:mux $(TOOLS)
 help: ## show help
 	@bash $(KONFIG)/banner.sh $(BANNER) 2>/dev/null || true
 	@gawk -f $(KONFIG)/help.awk $(MAKEFILE_LIST)
+	@echo " "
 
 ## doctor -----------------------------------------------------
 

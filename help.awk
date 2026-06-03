@@ -15,4 +15,5 @@ END {
     printf "\ndefaults:\n"
     n = asort(d); for (i = 1; i <= n; i++) print d[i]
   }
+  print " "
 }
