@@ -16,6 +16,7 @@ COMMENT ?= \#                    # comment regex (hist strips these)
 LINT    ?= ruff check $(SRC)     # check target command
 TOOLS   ?=                       # extra doctor checks: "cmd:use cmd:use"
 PKG     ?= gawk git neovim tmux  # doctor install hint
+BANNER  ?= banner.txt            # ascii art shown atop help (if present)
 # make keeps trailing spaces before #, which break path concat; strip them
 override KONFIG := $(strip $(KONFIG))
 override APP    := $(strip $(APP))
@@ -42,6 +43,7 @@ ALLTOOLS := gawk:help/hist git:push nvim:vi/sh tmux:mux $(TOOLS)
 ## help -------------------------------------------------------
 
 help: ## show help
+	@bash $(KONFIG)/banner.sh $(BANNER) 2>/dev/null || true
 	@gawk -f $(KONFIG)/help.awk $(MAKEFILE_LIST)
 
 ## doctor -----------------------------------------------------
@@ -83,7 +85,7 @@ sh: ## tuned bash + vi alias (config from $(KONFIG))
 	$(call need,nvim,sh)
 	$(call need,git,sh)
 	$(call konfig)
-	@KONFIG=$(abspath $(KONFIG)) APP=$(APP) MAIN=$(MAIN) \
+	@KONFIG=$(abspath $(KONFIG)) APP=$(APP) MAIN=$(MAIN) BANNER=$(abspath $(BANNER)) \
 	 bash --rcfile $(KONFIG)/bashrc -i
 
 ## vi ---------------------------------------------------------
