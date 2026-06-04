@@ -1,7 +1,9 @@
 # paragraph line-count histogram + cumulative %. comments stripped upstream.
+# only paragraphs whose first line starts with def/function are counted,
+# so module docstrings, data tables, inline strings don't inflate.
 # run: cat src | grep -Ev '^[[:space:]]*(#)' | gawk -f hist.awk
 BEGIN { RS = ""; FS = "\n" }
-{ d[NF]++; tot++ }
+$1 ~ /^(def |function |local function )/ { d[NF]++; tot++ }
 END {
   n = asorti(d, k, "@ind_num_asc"); all = 0
   for (i = 1; i <= n; i++) {

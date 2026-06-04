@@ -27,3 +27,7 @@ for kv in "p:run" "c:check" "vi:edit" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
   printf '\033[38;5;84m%s\033[0m\033[38;5;245m=%s  \033[0m' "${kv%%:*}" "${kv##*:}"
 done
 printf '\n\n'
+
+# stop fossil leak: aliases + banner already consumed these. Don't let
+# child shells / tmux / claude inherit stale paths from this session.
+unset BANNER APP MAIN KONFIG

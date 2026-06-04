@@ -7,12 +7,24 @@ SHELL := /bin/bash
 
 # self-locate: dir of this file (= "." standalone, repo's path when included)
 KONFIG  ?= $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+# APP/MAIN/BANNER: ignore env (fossil-leak from prior `make sh`). Repo
+# Makefile assignments (origin=file) keep winning; only origin=environment
+# is overridden back to default.
+ifeq ($(origin APP),environment)
+override APP := $(notdir $(CURDIR))
+endif
+ifeq ($(origin MAIN),environment)
+override MAIN := main.py
+endif
+ifeq ($(origin BANNER),environment)
+override BANNER := banner.txt
+endif
 APP     ?= $(notdir $(CURDIR))   # NVIM_APPNAME / tmux socket / session
 MAIN    ?= main.py               # entry point (p alias in bashrc)
 EXT     ?= py                    # source file extension
 LANG    ?= python                # a2ps pretty-print language
 SRC     ?= *.$(EXT)              # source glob (hist, pdf, lint)
-COMMENT ?= \#                    # comment regex (hist strips these)
+COMMENT ?= \#|--|//              # comment regex (hist strips these)
 LINT    ?= ruff check $(SRC)     # check target command
 TOOLS   ?=                       # extra doctor checks: "cmd:use cmd:use"
 PKG     ?= gawk git neovim tmux  # doctor install hint
