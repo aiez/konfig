@@ -86,7 +86,7 @@ push: ## add+commit+push+status; msg from cli: make push my note
 %:            # swallow the message words so make won't error
 	@:
 
-pushall: ## commit+push every sibling gist; prompts only if dirty
+pushs: ## commit+push every sibling gist; prompts only if dirty
 	@for d in $$(cd .. && ls -d */ 2>/dev/null); do d=$${d%/}; \
 	  [ -d "../$$d/.git" ] || continue; \
 	  printf "\n=== %s ===\n" "$$d"; \
@@ -100,7 +100,7 @@ pushall: ## commit+push every sibling gist; prompts only if dirty
 	    else echo "  clean + synced"; fi ); \
 	done
 
-pullall: ## git pull every sibling gist (skips dirty repos)
+pulls: ## git pull every sibling gist (skips dirty repos)
 	@for d in $$(cd .. && ls -d */ 2>/dev/null); do d=$${d%/}; \
 	  [ -d "../$$d/.git" ] || continue; \
 	  printf "\n=== %s ===\n" "$$d"; \
