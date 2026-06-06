@@ -139,7 +139,8 @@ vi: ## tuned nvim + catppuccin (config from $(KONFIG))
 mux: ## tuned tmux, private socket, config from $(KONFIG)
 	$(call need,tmux,mux)
 	$(call konfig)
-	@tmux -L $(APP) -f $(KONFIG)/tmux.conf new-session -A -s $(APP)
+	@KONFIG=$(abspath $(KONFIG)) APP=$(APP) MAIN=$(MAIN) BANNER=$(abspath $(BANNER)) \
+	 tmux -L $(APP) -f $(KONFIG)/tmux.conf new-session -A -s $(APP)
 
 ## pdf --------------------------------------------------------
 

@@ -1,8 +1,6 @@
--- tuned nvim: catppuccin + lualine + themery via vim.pack.
--- NVIM_APPNAME isolates plugin data; run via: nvim --clean -u init.lua
+-- Minimalist built-in Neovim configuration with habamax
 vim.o.termguicolors = true
-vim.pack.add({ "https://github.com/catppuccin/nvim" })
-vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("habamax")
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.cursorline = true
@@ -10,7 +8,6 @@ vim.o.expandtab = true
 vim.o.shiftwidth, vim.o.tabstop, vim.o.softtabstop = 2, 2, 2
 vim.o.ignorecase, vim.o.smartcase = true, true
 vim.o.clipboard = "unnamedplus"
-
 vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
