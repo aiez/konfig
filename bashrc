@@ -1,7 +1,9 @@
 # tuned interactive bash. source via: bash --rcfile bashrc -i
 # env in: KONFIG (this dir), APP (NVIM_APPNAME), MAIN (py entry), BANNER (art)
 set -o vi
-source ~/.bashrc >/dev/null 2>&1   # keep env/path, drop its banner+ghost
+# do NOT source ~/.bashrc: PATH/env already inherited from the parent
+# login shell. Sourcing it clobbers PS1 (PROMPT_COMMAND), the vi alias,
+# and drags in the fossil banner.
 
 # prompt: parent/cwd in cyan + git branch (yellow, * if dirty) + [histno]
 __gp() {

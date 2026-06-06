@@ -108,6 +108,12 @@ DATA after OPTIONS — matches unix `man` ordering (FILES after OPTIONS).
 Self-describing header; no separate schema file. Same protocol
 across every project + every CSV in optimiz/.
 
+## files TOC anchors
+
+Link sibling files in the README TOC with gist anchors:
+`#file-<name>-<ext>` (lowercase, dots/punctuation stripped).
+E.g. `lull.lua` → `#file-lull-lua`.
+
 ## URLs
 
 `tiny.cc/<reponame>` redirects to the gist. Use in:

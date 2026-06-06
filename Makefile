@@ -146,6 +146,9 @@ mux: ## tuned tmux, private socket, config from $(KONFIG)
 Font   ?= 5         # for ~/tmp/%.pdf
 Cols   ?= 3         # for ~/tmp/%.pdf
 Orient ?= landscape # for ~/tmp/%.pdf
+HL     ?= heavy     # for ~/tmp/%.pdf a2ps highlight level
+BREAK  ?=           # for ~/tmp/%.pdf form-feed marker (awk regex; empty=off)
+SSH    ?=           # for ~/tmp/%.pdf name of exported var w/ a2ps style sheet
 
 ~/tmp/%.pdf : %.$(EXT) ## src -> pdf via a2ps
 	$(call need,a2ps,pdf)
@@ -154,10 +157,13 @@ Orient ?= landscape # for ~/tmp/%.pdf
 	@echo "pdfing : $@ ..."
 	@D=$$(mktemp -d); trap "rm -rf $$D" EXIT; \
 	 mkdir -p $$D/.a2ps; \
+	 [ -n "$(SSH)" ] && printf '%s\n' "$${$(SSH)}" > $$D/.a2ps/$(LANG).ssh; \
+	 { [ -n "$(BREAK)" ] && awk '/$(BREAK)/{if(NR>1)printf "\f";next}{print}' $< \
+	     || cat $<; } | \
 	 HOME=$$D a2ps -Bj --$(Orient) --line-numbers=1 \
-	      --highlight-level=heavy --borders=no \
+	      --highlight-level=$(HL) --borders=no \
 	      --pro=color --right-footer="" --left-footer="" \
 	      --pretty-print=$(LANG) --footer="page %p." \
 	      -M letter --font-size=$(Font) \
-	      --columns $(Cols) -o - $< | ps2pdf - $@
+	      --columns $(Cols) -o - | ps2pdf - $@
 	@$(OPEN) $@

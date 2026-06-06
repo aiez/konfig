@@ -3,6 +3,58 @@
 Goal: small, terse, readable in one sitting. ~300–400 lines of real work.
 No deps. Pure stdlib. Pedagogical: every line earns its place.
 
+## principles (language-neutral)
+
+Shared across every gist, any language:
+
+- **COI**  compose, don't inherit
+- **LoB**  locality of behavior: a type's methods + the funcs on it
+  live together (wrapper next to its algorithm). Exception:
+  cross-type op-families may cluster (all ctors, all `add`s).
+- **SSOT** config from one help/doc string
+- **BOB**  funcs <=5 lines — warn, not mandatory
+- **BAIL** one-line guards
+- **KISS** one func, one job
+- **R3**   rule of three: don't wrap until 3rd real use (egs don't
+  count); 1–2 uses = inline
+- **DSL**  when a shape repeats, invent tiny notation kept as data
+  (string/table) + write ONE small interpreter. See below.
+- **ZIP**  max logic/screen, min whitespace
+- **HINT** names = types (see `## names`)
+- **ASCII only** in source — no unicode arrows/glyphs; they break
+  the a2ps PDF (`make pdf`)
+
+## DSLs (notation as data + one interpreter)
+
+Recurring shapes encoded as data, each read by one small engine.
+Spot repetition → minimal syntax → single interpreter. Adding a
+row/col/test/flag becomes new data, not new code.
+
+| notation | example |
+|---|---|
+| **CSV header** = schema | `Clndrs Lbs- Mpg+ klass!` |
+| **per-file help string** = help + config | `## options` / `## egs` blocks |
+| **test cases** = triples | `{"mid", got, want}` |
+| **Makefile self-doc** | `target: ## desc`, `Var ?= v # for X` |
+
+## data records: CSV
+
+Header row names cols. Caps first letter = numeric col, else
+symbolic. Suffix: `X`=skip, `-`=goal min, `+`=goal max, `!`=klass.
+Rows sorted ascending by distance-to-heaven (lower = better).
+
+    Clndrs, Volume, HpX, Lbs-, Acc+, Mpg+
+    4,      90,     48,  1985, 21.5, 40
+
+## on "update"
+
+When asked to "update" code to current style:
+1. Re-read the style doc(s)
+2. Audit every file in the gist
+3. **Print a plan** (file → what changes)
+4. **Pause for confirmation**
+5. On approval: apply
+
 ## layout
 
     #!/usr/bin/env python3 -B
@@ -122,9 +174,31 @@ scope — that's where the type cue matters most. Use the long name.
 Full words for module-level / exported names (Data, treeShow,
 generalized).
 
+Short scalars, any language, tight scope only:
+
+    n        int / count / index
+    s, v     string / scalar value
+    at       column index
+    lo, hi   bounds
+    mu, sd   mean, stdev
+    plurals  cols rows xs(=features) ys(=goals) = lists
+
+(`t` and `i` are language-specific: `t` = table/tree, `i` = loop
+index or method receiver. Disambiguate per language doc.)
+
 ## CLI
 
-Options live in the module docstring; `settings(doc)` parses
+Shared protocol (any language in these gists):
+
+- The help/doc string is the SSOT for options + defaults.
+- Option line `--name=default` seeds config; action line (no `=`)
+  doesn't.
+- Flags are long-only except canonical shorts `-t`(train),
+  `-T`(test), `-h`(help). Unknown flag = error.
+- `--name` runs the matching test/eg.
+- Every file is standalone-runnable AND importable (CLI or library).
+
+Python: options live in the module docstring; `settings(doc)` parses
 `name=default` pairs into `the`. `cli(the, doc, globals())` toggles
 booleans, sets values, runs `test_<name>()` for any `--<name>`.
 
