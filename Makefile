@@ -71,6 +71,14 @@ doctor: ## check required tools
 	@printf "\nmacOS: brew install $(PKG)\n"
 	@printf "linux: apt  install $(PKG)\n"
 
+## install ----------------------------------------------------
+
+install: ## how to install packages (runs nothing)
+	@printf "package install is a separate step. run:\n\n"
+	@printf "  ./install.sh        # install from Brewfile\n"
+	@printf "  ./install.sh dump   # regenerate Brewfile from this machine\n"
+	@printf "  ./install.sh check  # list Brewfile pkgs not yet installed\n\n"
+
 ## check ------------------------------------------------------
 
 check: ## lint source ($(LINT))
@@ -78,9 +86,11 @@ check: ## lint source ($(LINT))
 
 ## push -------------------------------------------------------
 
-push: ## add+commit+push+status; msg from cli: make push my note
+push: ## add+commit+push+status; msg from cli (make push my note) else prompts
 	@git add -A
-	@m="$(filter-out $@,$(MAKECMDGOALS))"; git commit -m "$${m:-save}" || true
+	@m="$(filter-out $@,$(MAKECMDGOALS))"; \
+	  [ -z "$$m" ] && { printf "commit msg (empty=save): "; read m </dev/tty; }; \
+	  git commit -m "$${m:-save}" || true
 	@git push
 	@git status
 %:            # swallow the message words so make won't error

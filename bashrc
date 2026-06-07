@@ -1,6 +1,7 @@
 # tuned interactive bash. source via: bash --rcfile bashrc -i
 # env in: KONFIG (this dir), APP (NVIM_APPNAME), MAIN (py entry), BANNER (art)
 set -o vi
+export BASH_SILENCE_DEPRECATION_WARNING=1  # mute macOS "default shell is zsh" notice
 export PATH="$HOME/.local/bin:$PATH"
 # do NOT source ~/.bashrc: PATH/env already inherited from the parent
 # login shell. Sourcing it clobbers PS1 (PROMPT_COMMAND), the vi alias,

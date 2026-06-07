@@ -1,19 +1,30 @@
--- Minimalist built-in Neovim configuration with habamax
-vim.o.termguicolors = true
-vim.cmd.colorscheme("habamax")
+-- Neovim config: catppuccin-mocha + nvim-tree (launch: nvim --clean -u this)
 vim.g.mapleader = " "
+vim.o.termguicolors = true
 vim.o.number = true
 vim.o.cursorline = true
 vim.o.expandtab = true
 vim.o.shiftwidth, vim.o.tabstop, vim.o.softtabstop = 2, 2, 2
 vim.o.ignorecase, vim.o.smartcase = true, true
 vim.o.clipboard = "unnamedplus"
-vim.g.netrw_liststyle = 3
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
-vim.g.netrw_browse_split = 4   -- open files in previous window
-vim.g.netrw_altv = 1           -- vertical split goes right
-vim.keymap.set("n", "<leader>e", "<cmd>Lex<CR>")  -- toggle sidebar
+
+-- plugins via vim.pack (nvim 0.12). --clean drops site from packpath; re-add it.
+vim.g.loaded_netrw, vim.g.loaded_netrwPlugin = 1, 1   -- nvim-tree replaces netrw
+vim.opt.packpath:prepend(vim.fn.stdpath("data") .. "/site")
+vim.pack.add({
+  "https://github.com/catppuccin/nvim",
+  "https://github.com/nvim-tree/nvim-web-devicons",
+  "https://github.com/nvim-tree/nvim-tree.lua",
+})
+vim.cmd.colorscheme("catppuccin-mocha")
+
+-- file manager: 25% sidebar, nerd-font icons
+require("nvim-tree").setup({
+  view     = { width = "25%" },
+  renderer = { group_empty = true, highlight_git = true },
+  filters  = { dotfiles = false },
+})
+vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")  -- toggle sidebar
 
 -- vim.o.termguicolors = true
 -- vim.o.expandtab = true
