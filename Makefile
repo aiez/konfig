@@ -31,6 +31,9 @@ PKG     ?= gawk git neovim tmux  # doctor install hint
 BANNER  ?= banner.txt            # ascii art shown atop help (if present)
 # make keeps trailing spaces before #, which break path concat; strip them
 override KONFIG := $(strip $(KONFIG))
+# DOOT: gists root (dir holding konfig + sibling gists). env wins; else
+# parent of konfig. all cross-repo paths hang off this -- see style_gist.md.
+DOOT    ?= $(abspath $(KONFIG)/..)
 override APP    := $(strip $(APP))
 override MAIN   := $(strip $(MAIN))
 
@@ -166,6 +169,49 @@ claude: ## tmux: left shell | right = claude (top) + `make sh` (bottom)
 	   split-window -v -c $(CURDIR) \; send-keys 'make sh' C-m \; \
 	   select-pane -L; \
 	 exec $$T attach -t $(APP)
+
+## play -------------------------------------------------------
+
+GAMES ?= $(DOOT)/bsdgames-osx  # sibling gist of classic bsdgames source
+GAME  ?= robots                # for: make play GAME=<dir>
+DEFS  ?=                       # extra -D flags some games need
+# strip trailing space left before the # comments above (see L32)
+override GAMES := $(strip $(GAMES))
+override GAME  := $(strip $(GAME))
+override DEFS  := $(strip $(DEFS))
+
+play: ## build+run a bsdgame: make play GAME=trek (DEFS=-D...)
+	$(call need,cc,play)
+	@g=$(GAMES)/$(GAME); \
+	 test -d $$g || { echo "no game '$(GAME)' in $(GAMES)"; \
+	   echo "have: $$(cd $(GAMES) 2>/dev/null && ls -d */ | tr -d /)"; exit 1; }; \
+	 out=$${TMPDIR:-/tmp}/bsdg_$(GAME); err=$${TMPDIR:-/tmp}/bsdg_$(GAME).err; \
+	 echo "building $(GAME)..."; \
+	 cc -w -o $$out $(DEFS) $$g/*.c -lcurses 2>$$err \
+	   || { echo "build failed:"; cat $$err; exit 1; }; \
+	 exec $$out
+
+robots: ## play ASCII daleks (bsdgames robots)
+	@$(MAKE) --no-print-directory play GAME=robots DEFS=-DMAX_PER_UID=5
+
+## toys -------------------------------------------------------
+# eye-candy needing a brew formula; print install hint if missing
+toy = @command -v $(1) >/dev/null || { \
+        printf "missing: %s  (brew install %s)\n" $(1) $(2); exit 1; }; \
+      exec $(1) $(3)
+
+cmatrix: ## matrix rain        (brew install cmatrix)
+	$(call toy,cmatrix,cmatrix,-ab)
+aquarium: ## fish tank         (brew install asciiquarium)
+	$(call toy,asciiquarium,asciiquarium,)
+pipes: ## animated pipes       (brew install pipes-sh)
+	$(call toy,pipes.sh,pipes-sh,)
+chess: ## play chess           (brew install gnuchess)
+	$(call toy,gnuchess,gnuchess,)
+tetris: ## play tetris         (brew install vitetris)
+	$(call toy,vitetris,vitetris,)
+checkers: ## play checkers     (brew install nbsdgames)
+	$(call toy,checkers,nbsdgames,)
 
 ## pdf --------------------------------------------------------
 
