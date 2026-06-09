@@ -41,6 +41,41 @@ data. No code/data/config mixed in one repo.
 Data-only repos (no source): omit MAIN/EXT/LANG/LINT/TOOLS. Keep
 KONFIG, APP, PKG.
 
+## cross-repo references (no naked paths)
+
+A gist NEVER hardcodes another repo's location. Naked `../sibling`
+literals and absolute `/Users/...` (or `/home/...`) paths are
+VERBOTEN: they break the moment a gist moves (into `old/`, a deeper
+dir) or a sibling relocates.
+
+All external references resolve through ONE overridable root, tried
+in order:
+
+    1. env var      $DOOT (gists root), $KONFIG=$DOOT/konfig
+                    exported once in konfig/bashrc            -- wins
+    2. upward search climb parents for a dir named `konfig`   -- fallback
+    3. relative     `?= ../konfig`           -- last-resort default only
+
+`$DOOT` = the dir holding all the sibling gists (konfig, optimiz,
+<project>...). One knob; move the tree or nest a gist, edit one line,
+every gist follows.
+
+    # Makefile: `?=` lets an exported env value override the default
+    KONFIG ?= ../konfig
+    DOOT   ?= $(abspath $(KONFIG)/..)
+    DATA   ?= $(DOOT)/optimiz/auto93.csv      # never bare ../optimiz
+
+    # Python: env first, then search, then the documented default
+    DOOT = os.environ.get("DOOT") or find_up("konfig", then="..")
+    DATA = f"{DOOT}/optimiz/auto93.csv"
+
+Sole sanctioned naked path: the `KONFIG ?= ../konfig` bootstrap
+default (and `DOOT` derived from it). Everything else hangs off the
+root var. Doc/README example commands may show `../optimiz` for
+brevity; runnable code and Makefile recipes may not.
+
+Audit (see style_code.md `PATHS`): one grep surfaces every offender.
+
 ## README (`,project.md`)
 
 ### first 7 lines = gist preview hook

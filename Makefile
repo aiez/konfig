@@ -96,29 +96,30 @@ push: ## add+commit+push+status; msg from cli (make push my note) else prompts
 %:            # swallow the message words so make won't error
 	@:
 
-pushs: ## commit+push every sibling gist; prompts only if dirty
-	@for d in $$(cd .. && ls -d */ 2>/dev/null); do d=$${d%/}; \
+# walk sibling gists, run shell fn `repo` (defined by caller) inside each
+eachgist = for d in $$(cd .. && ls -d */ 2>/dev/null); do d=$${d%/}; \
 	  [ -d "../$$d/.git" ] || continue; \
 	  printf "\n=== %s ===\n" "$$d"; \
-	  ( cd ../$$d && \
-	    if [ -n "$$(git status --porcelain)" ]; then \
-	      printf "  msg (empty=skip): "; read m </dev/tty; \
-	      [ -z "$$m" ] && echo "  skipped" && exit 0; \
-	      git add -A && git commit -m "$$m" && git push; \
-	    elif [ "$$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)" != "0" ]; then \
-	      git push; \
-	    else echo "  clean + synced"; fi ); \
+	  ( cd ../$$d && repo ); \
 	done
 
+pushs: ## commit+push every sibling gist; prompts only if dirty
+	@repo(){ \
+	  if [ -n "$$(git status --porcelain)" ]; then \
+	    printf "  msg (empty=skip): "; read m </dev/tty; \
+	    [ -z "$$m" ] && { echo "  skipped"; return 0; }; \
+	    git add -A && git commit -m "$$m" && git push; \
+	  elif [ "$$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)" != "0" ]; then \
+	    git push; \
+	  else echo "  clean + synced"; fi; \
+	}; $(eachgist)
+
 pulls: ## git pull every sibling gist (skips dirty repos)
-	@for d in $$(cd .. && ls -d */ 2>/dev/null); do d=$${d%/}; \
-	  [ -d "../$$d/.git" ] || continue; \
-	  printf "\n=== %s ===\n" "$$d"; \
-	  ( cd ../$$d && \
-	    if [ -n "$$(git status --porcelain)" ]; then \
-	      echo "  skipped: dirty (commit or stash first)"; \
-	    else git pull --ff-only; fi ); \
-	done
+	@repo(){ \
+	  if [ -n "$$(git status --porcelain)" ]; then \
+	    echo "  skipped: dirty (commit or stash first)"; \
+	  else git pull --ff-only; fi; \
+	}; $(eachgist)
 
 ## hist -------------------------------------------------------
 
@@ -151,6 +152,20 @@ mux: ## tuned tmux, private socket, config from $(KONFIG)
 	$(call konfig)
 	@KONFIG=$(abspath $(KONFIG)) APP=$(APP) MAIN=$(MAIN) BANNER=$(abspath $(BANNER)) \
 	 tmux -L $(APP) -f $(KONFIG)/tmux.conf new-session -A -s $(APP)
+
+## claude -----------------------------------------------------
+
+claude: ## tmux: left shell | right = claude (top) + `make sh` (bottom)
+	$(call need,tmux,claude)
+	$(call konfig)
+	@T="tmux -L $(APP)"; \
+	 $$T has-session -t $(APP) 2>/dev/null && exec $$T attach -t $(APP); \
+	 $$T -f $(KONFIG)/tmux.conf new-session -d -s $(APP) -c $(CURDIR) \; \
+	   send-keys 'make sh' C-m \; \
+	   split-window -h -c $(CURDIR) \; send-keys 'make sh' C-m 'clear' C-m 'claude' C-m \; \
+	   split-window -v -c $(CURDIR) \; send-keys 'make sh' C-m \; \
+	   select-pane -L; \
+	 exec $$T attach -t $(APP)
 
 ## pdf --------------------------------------------------------
 
