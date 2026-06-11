@@ -25,6 +25,12 @@ data. No code/data/config mixed in one repo.
 
 ## Makefile pattern
 
+MANDATORY: every gist — code, data-only, or doc-only — carries a
+Makefile. Knobs first, then a loud-failure guard, then
+`include $(KONFIG)/Makefile` as the last line. That include is what
+gives every repo the shared targets (help doctor check push hist sh
+vi mux pdf) for free.
+
     KONFIG ?= ../konfig
     APP   := project
     MAIN  := project.py
@@ -38,8 +44,17 @@ data. No code/data/config mixed in one repo.
     	@test -f $@ || { echo "missing konfig: ..."; exit 1; }
     include $(KONFIG)/Makefile
 
-Data-only repos (no source): omit MAIN/EXT/LANG/LINT/TOOLS. Keep
-KONFIG, APP, PKG.
+Data-only and doc-only repos (no source): omit
+MAIN/EXT/LANG/LINT/TOOLS. Keep KONFIG, APP, PKG, the guard, and
+the include — minimum viable Makefile:
+
+    KONFIG ?= ../konfig
+    APP    := project
+    PKG    := gawk neovim tmux
+
+    $(KONFIG)/Makefile:
+    	@test -f $@ || { echo "missing konfig: git clone http://tiny.cc/konfig $(KONFIG)"; exit 1; }
+    include $(KONFIG)/Makefile
 
 ## cross-repo references (no naked paths)
 
