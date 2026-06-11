@@ -25,6 +25,12 @@ data. No code/data/config mixed in one repo.
 
 ## Makefile pattern
 
+MANDATORY: every gist — code, data-only, or doc-only — carries a
+Makefile. Knobs first, then a loud-failure guard, then
+`include $(KONFIG)/Makefile` as the last line. That include is what
+gives every repo the shared targets (help doctor check push hist sh
+vi mux pdf) for free.
+
     KONFIG ?= ../konfig
     APP   := project
     MAIN  := project.py
@@ -38,8 +44,52 @@ data. No code/data/config mixed in one repo.
     	@test -f $@ || { echo "missing konfig: ..."; exit 1; }
     include $(KONFIG)/Makefile
 
-Data-only repos (no source): omit MAIN/EXT/LANG/LINT/TOOLS. Keep
-KONFIG, APP, PKG.
+Data-only and doc-only repos (no source): omit
+MAIN/EXT/LANG/LINT/TOOLS. Keep KONFIG, APP, PKG, the guard, and
+the include — minimum viable Makefile:
+
+    KONFIG ?= ../konfig
+    APP    := project
+    PKG    := gawk neovim tmux
+
+    $(KONFIG)/Makefile:
+    	@test -f $@ || { echo "missing konfig: git clone http://tiny.cc/konfig $(KONFIG)"; exit 1; }
+    include $(KONFIG)/Makefile
+
+## cross-repo references (no naked paths)
+
+A gist NEVER hardcodes another repo's location. Naked `../sibling`
+literals and absolute `/Users/...` (or `/home/...`) paths are
+VERBOTEN: they break the moment a gist moves (into `old/`, a deeper
+dir) or a sibling relocates.
+
+All external references resolve through ONE overridable root, tried
+in order:
+
+    1. env var      $DOOT (gists root), $KONFIG=$DOOT/konfig
+                    exported once in konfig/bashrc            -- wins
+    2. upward search climb parents for a dir named `konfig`   -- fallback
+    3. relative     `?= ../konfig`           -- last-resort default only
+
+`$DOOT` = the dir holding all the sibling gists (konfig, optimiz,
+<project>...). One knob; move the tree or nest a gist, edit one line,
+every gist follows.
+
+    # Makefile: `?=` lets an exported env value override the default
+    KONFIG ?= ../konfig
+    DOOT   ?= $(abspath $(KONFIG)/..)
+    DATA   ?= $(DOOT)/optimiz/auto93.csv      # never bare ../optimiz
+
+    # Python: env first, then search, then the documented default
+    DOOT = os.environ.get("DOOT") or find_up("konfig", then="..")
+    DATA = f"{DOOT}/optimiz/auto93.csv"
+
+Sole sanctioned naked path: the `KONFIG ?= ../konfig` bootstrap
+default (and `DOOT` derived from it). Everything else hangs off the
+root var. Doc/README example commands may show `../optimiz` for
+brevity; runnable code and Makefile recipes may not.
+
+Audit (see style_code.md `PATHS`): one grep surfaces every offender.
 
 ## local Makefile rules (after include)
 

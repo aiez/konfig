@@ -23,6 +23,15 @@ Shared across every gist, any language:
 - **HINT** names = types (see `## names`)
 - **ASCII only** in source — no unicode arrows/glyphs; they break
   the a2ps PDF (`make pdf`)
+- **PATHS** no naked cross-repo refs. A gist never hardcodes another
+  repo's location (no `../sibling` literals, no absolute `/Users/`,
+  `/home/`). Resolve via `$DOOT`/`$KONFIG` env, else `find_up`; the
+  sole exception is the `KONFIG ?= ../konfig` bootstrap default. See
+  style_gist.md "cross-repo references". Audit:
+
+      grep -rnE '\.\./[a-z]|/Users/|/home/|/gits/' *.$(EXT) Makefile
+
+  every hit must route through the root var, not a literal.
 
 ## DSLs (notation as data + one interpreter)
 

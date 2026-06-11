@@ -3,6 +3,9 @@
 set -o vi
 export BASH_SILENCE_DEPRECATION_WARNING=1  # mute macOS "default shell is zsh" notice
 export PATH="$HOME/.local/bin:$PATH"
+# bat: groovy. Catppuccin Mocha matches banner purple/green. grid+rule decor.
+export BAT_THEME="Catppuccin Mocha"
+export BAT_STYLE="numbers,changes,header,grid,snip"
 # do NOT source ~/.bashrc: PATH/env already inherited from the parent
 # login shell. Sourcing it clobbers PS1 (PROMPT_COMMAND), the vi alias,
 # and drags in the fossil banner.
@@ -19,6 +22,7 @@ PS1='\[\e[36m\]$(__pw)\[\e[33m\]$(__gp) \[\e[0m\][\!]\$ '
 
 alias p="python3 -B ${MAIN:-main.py}" c="make check"
 alias ll='ls -la' gs='git status -s' gd='git diff' gl='git log --oneline -20'
+alias cat='bat --paging=never' less='bat'  # groovy syntax color
 # vi: real file in $KONFIG, NVIM_APPNAME isolates plugin data
 alias vi="NVIM_APPNAME=${APP:-nvim} nvim --clean -u \"${KONFIG:-.}/init.lua\""
 # tmux: repo config (path baked now; KONFIG unset below). No recursion: bash
