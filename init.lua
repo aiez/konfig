@@ -26,6 +26,9 @@ require("nvim-tree").setup({
 })
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")  -- toggle sidebar
 
+-- per-repo overrides (loaded last so they win). silent if missing.
+pcall(dofile, vim.fn.getcwd() .. "/init.local.lua")
+
 -- vim.o.termguicolors = true
 -- vim.o.expandtab = true
 -- vim.o.tabstop = 2

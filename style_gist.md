@@ -41,6 +41,57 @@ data. No code/data/config mixed in one repo.
 Data-only repos (no source): omit MAIN/EXT/LANG/LINT/TOOLS. Keep
 KONFIG, APP, PKG.
 
+## local Makefile rules (after include)
+
+Konfig's Makefile owns generic targets (help, doctor, check, push,
+hist, sh, vi, mux, pdf). Repo-specific targets go in the local
+Makefile *after* `include $(KONFIG)/Makefile`.
+
+Every repo should define a local `test` rule that runs all
+self-checks — language/framework-specific, so it can't live in
+konfig.
+
+Konfig's `check` = static lint. Local `test` = runtime behaviour.
+Both kept separate so CI can call them independently.
+
+### one rule per test, UPPERCASE-discovered
+
+Each test is its own rule with an **UPPERCASE** name (TREES, MAIN,
+PARSE, EQUIV, ...). The local `test` rule auto-discovers them by
+grepping the Makefile — no central list to keep in sync. Adding a
+new test = adding a new UPPERCASE rule.
+
+    BANG:  ## test: end! appends correctly
+    	@sbcl --script tests/bang.lisp
+
+    PARSE: ## test: csv parser round-trips
+    	@sbcl --script tests/parse.lisp
+
+    test:  ## run every UPPERCASE rule
+    	@gawk -F: '/^[A-Z][A-Z_]*:[^=]/ {print $$1}' $(MAKEFILE_LIST) | \
+    	  sort -u | while read t; do \
+    	    printf "\n=== %s ===\n" "$$t"; $(MAKE) -s $$t; done
+
+Why UPPERCASE: rule name = discovery marker (no comment to drift
+out of sync); visually clusters in `make help`; can't collide with
+normal lowercase targets or `VAR :=` assignments (regex excludes
+`:=` via `[^=]`). Language-agnostic — works for pytest, sbcl,
+shell, anything callable from make.
+
+## local rc / init overrides
+
+Konfig's bashrc, init.lua, tmux.conf each source an optional
+sibling-of-CWD file at the *end* so repo-specific tweaks layer on
+without forking konfig:
+
+    bashrc:    [ -f "$PWD/bashrc.local" ]    && source "$PWD/bashrc.local"
+    init.lua:  pcall(dofile, vim.fn.getcwd() .. "/init.local.lua")
+    tmux.conf: source-file -q tmux.local.conf
+
+Silent if missing. Local file sources last → wins on conflict.
+Use for per-project aliases (e.g. `alias r='sbcl --script ...'`),
+language-specific keymaps, project-specific tmux panes.
+
 ## README (`,project.md`)
 
 ### first 7 lines = gist preview hook
@@ -72,6 +123,27 @@ Standard four: Purpose · License · Language · Author.
 
 H3, clickable tiny.cc URL. Skips repeating "Project — " noise; the
 URL is the identifier.
+
+### TOC bars (above NAME)
+
+Two one-line pipe-separated TOCs sit between the install snippet
+and `## NAME`. Standard in every gist README:
+
+    **Sections:** [NAME](#name) | [SYNOPSIS](#synopsis) | ... | [LICENSE](#license)
+
+    **Files:** [foo.py](#file-foo-py) | [bar.md](#file-bar-md) | ...
+
+- *Sections* — section anchors within this README. Labels in
+  SHORT-CAPS, match the H2 headers. Skip sections that don't
+  exist in the project.
+- *Files* — sibling files in the gist via `#file-<name>-<ext>`
+  (lowercase, dots/punctuation collapse into single `-`, never
+  double). E.g. `lib-.lisp` → `#file-lib-lisp` (NOT
+  `lib--lisp`); `fft-2small.lisp` → `#file-fft-2small-lisp`.
+  Omit the README itself and trivial files (banner.txt). Order
+  by importance, not alphabetical.
+
+Keeps gist preview navigable without scrolling.
 
 ### body: man-page hybrid
 
@@ -111,8 +183,10 @@ across every project + every CSV in optimiz/.
 ## files TOC anchors
 
 Link sibling files in the README TOC with gist anchors:
-`#file-<name>-<ext>` (lowercase, dots/punctuation stripped).
-E.g. `lull.lua` → `#file-lull-lua`.
+`#file-<name>-<ext>` (lowercase, dots/punctuation collapse
+into single `-`, never double). E.g. `lull.lua` →
+`#file-lull-lua`; `lib-.lisp` → `#file-lib-lisp` (NOT
+`lib--lisp`).
 
 ## URLs
 

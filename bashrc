@@ -35,6 +35,9 @@ for kv in "p:run" "c:check" "vi:edit" "tmux:mux" "gs:status" "gd:diff" "gl:log" 
 done
 printf '\n\n'
 
+# per-repo overrides (sourced last so they win). silent if missing.
+[ -f "$PWD/bashrc.local" ] && source "$PWD/bashrc.local"
+
 # stop fossil leak: aliases + banner already consumed these. Don't let
 # child shells / tmux / claude inherit stale paths from this session.
 unset BANNER APP MAIN KONFIG
