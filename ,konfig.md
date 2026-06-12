@@ -61,7 +61,7 @@ make help
 
     luamine   http://tiny.cc/luamine   Lua data mining
     optimiz   http://tiny.cc/optimiz   example datasets
-    semble    http://tiny.cc/semble    regression trees
+    fft       http://tiny.cc/fft       FFTs + regression trees
     repltut   http://tiny.cc/repltut   REPL tutorial prompts
 
 ## LICENSE
