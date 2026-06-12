@@ -55,4 +55,4 @@ Put `tmux.local.conf` next to the repo Makefile; sourced *last*
 `-L name` = separate server per repo. `tmux ls` shows nothing?
 You're asking the *default* server. Use:
 
-    tmux -L lull ls
+    tmux -L luamine ls

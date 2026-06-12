@@ -23,8 +23,8 @@ A repo's own Makefile is just knobs + `include $(KONFIG)/Makefile`.
 ## a repo Makefile (knobs then include)
 
     KONFIG ?= ../konfig
-    APP    := lull          # session/socket/NVIM_APPNAME
-    MAIN   := lull.lua      # entry point (p alias)
+    APP    := luamine          # session/socket/NVIM_APPNAME
+    MAIN   := luamine.lua      # entry point (p alias)
     EXT    := lua
     LANG   := lua           # a2ps language
     COMMENT:= --            # hist strips these

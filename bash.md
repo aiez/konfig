@@ -52,7 +52,7 @@ Put repo-specific aliases in `bashrc.local` next to the Makefile;
 it is sourced *last*, so it wins:
 
     # bashrc.local
-    alias r='lua lull.lua --all'
+    alias r='lua luamine.lua --all'
 
 Silent if missing. Never edit konfig's bashrc for one repo.
 
