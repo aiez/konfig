@@ -1,0 +1,115 @@
+;;; dotemacs --- konfig: make emacs -nw feel like a standard editor  -*- lexical-binding: t; -*-
+;; (c) 2026 Tim Menzies <timm@ieee.org>, MIT license
+;; load isolated:  emacs -nw -Q -l $KONFIG/dotemacs   (see bashrc `e` alias)
+;; SLIME's lisp = $SBCL if set, else `sbcl` on PATH.
+
+;; ## isolation ---------------------------------------------------
+;; keep all package/state OUT of the user's ~/.emacs.d
+(setq user-emacs-directory (expand-file-name "~/.cache/emacs-konfig/")
+      custom-file (expand-file-name "custom.el" user-emacs-directory))
+(make-directory user-emacs-directory t)
+
+;; ## packages (MELPA; install only what is missing) --------------
+;; set package-user-dir explicitly: startup may have baked the default to
+;; ~/.emacs.d before user-emacs-directory was reset above.
+(require 'package)
+(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+(dolist (p '(slime catppuccin-theme))            ; which-key is built in on emacs 30
+  (unless (package-installed-p p)
+    (unless package-archive-contents (package-refresh-contents))
+    (condition-case nil                          ; stale index -> refresh once, retry
+        (package-install p)
+      (error (package-refresh-contents) (package-install p)))))
+
+;; ## sane, sharp defaults (each line earns its place) ------------
+(setq inhibit-startup-screen t  ring-bell-function 'ignore
+      make-backup-files nil     create-lockfiles nil
+      use-short-answers t       sentence-end-double-space nil
+      scroll-margin 3           scroll-conservatively 101
+      mouse-wheel-progressive-speed nil)
+(setq-default indent-tabs-mode nil)              ; spaces, not tabs
+(menu-bar-mode 1) (xterm-mouse-mode 1) (mouse-wheel-mode 1)  ; pulldown menus + mouse in -nw
+(cua-mode 1) (delete-selection-mode 1)           ; C-x/c/v/z + type-replaces-region
+(fido-vertical-mode 1)                           ; modern vertical minibuffer completion
+(which-key-mode 1)                               ; popup of keys after a prefix
+(show-paren-mode 1) (electric-pair-mode 1)       ; match + auto-close brackets
+(global-hl-line-mode 1)                          ; highlight current line
+(global-auto-revert-mode 1) (recentf-mode 1) (save-place-mode 1)
+(savehist-mode 1) (winner-mode 1)
+(column-number-mode 1) (global-display-line-numbers-mode 1)
+
+;; ## standard-editor keys ----------------------------------------
+(defun kf-match-paren ()
+  "Jump to the bracket matching the one at point (vim %)."
+  (interactive)
+  (cond ((looking-at "\\s(")     (forward-sexp 1))
+        ((looking-at "\\s)")     (forward-char 1) (backward-sexp 1))
+        ((looking-back "\\s)" 1) (backward-sexp 1))
+        ((looking-back "\\s(" 1) (backward-char 1) (forward-sexp 1))
+        (t (message "no bracket at point"))))
+
+(defun kf-indent ()
+  "Reindent the region if one is active, else normal TAB."
+  (interactive)
+  (if (use-region-p)
+      (indent-region (region-beginning) (region-end))
+    (indent-for-tab-command)))
+
+(global-set-key (kbd "C-s")  'save-buffer)            ; save
+(global-set-key (kbd "C-f")  'isearch-forward)        ; find
+(global-set-key (kbd "<f3>") 'isearch-repeat-forward) ; find again (C-g stays = cancel)
+(global-set-key (kbd "C-%")  'kf-match-paren)         ; match bracket
+(global-set-key (kbd "C-\\") 'comment-line)           ; comment / uncomment
+(global-set-key (kbd "TAB")  'kf-indent)              ; region -> reindent
+
+;; ## SLIME (Common Lisp) -----------------------------------------
+(setq inferior-lisp-program (or (getenv "SBCL") "sbcl"))
+(defun kf-eval ()
+  "Evaluate the region if active, else the top-level form."
+  (interactive)
+  (if (use-region-p)
+      (slime-eval-region (region-beginning) (region-end))
+    (slime-eval-defun)))
+(global-set-key (kbd "<f5>") 'kf-eval)   ; evaluate
+(global-set-key (kbd "<f6>") 'slime)     ; start / jump to REPL
+
+;; ## menus: Themes (radio, current checked), Packages, Settings --
+(defvar kf-flavors '(mocha macchiato frappe latte))
+(defvar kf-classics '(modus-vivendi modus-operandi wombat tango leuven tsdh-dark))
+(defun kf-catppuccin (fl)
+  (mapc #'disable-theme custom-enabled-themes)
+  (require 'catppuccin-theme) (setq catppuccin-flavor fl) (load-theme 'catppuccin t))
+(defun kf-classic (th)
+  (mapc #'disable-theme custom-enabled-themes) (load-theme th t))
+(require 'easymenu)
+(easy-menu-define nil global-map "Konfig"
+  `("Konfig"
+    ("Themes"
+     ,@(mapcar (lambda (fl)
+                 (vector (format "Catppuccin %s" fl)
+                         (lambda () (interactive) (kf-catppuccin fl))
+                         :style 'radio
+                         :selected `(and (memq 'catppuccin custom-enabled-themes)
+                                         (eq catppuccin-flavor ',fl))))
+               kf-flavors)
+     "--"
+     ,@(mapcar (lambda (th)
+                 (vector (symbol-name th)
+                         (lambda () (interactive) (kf-classic th))
+                         :style 'radio
+                         :selected `(memq ',th custom-enabled-themes)))
+               kf-classics))
+    ("Packages"
+     ["List / install..."  list-packages t]
+     ["Refresh archives"   package-refresh-contents t])
+    ["Settings (customize)" customize t]
+    "--"
+    ("Lisp / SLIME"
+     ["Start SLIME   (F6)" slime  t]
+     ["Evaluate      (F5)" kf-eval t])))
+
+;; ## theme: catppuccin mocha by default --------------------------
+(kf-catppuccin 'mocha)
+;;; dotemacs ends here

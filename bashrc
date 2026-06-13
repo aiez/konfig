@@ -28,13 +28,17 @@ alias vi="NVIM_APPNAME=${APP:-nvim} nvim --clean -u \"${KONFIG:-.}/init.lua\""
 # tmux: repo config (path baked now; KONFIG unset below). No recursion: bash
 # won't re-expand the same word.
 alias tmux="tmux -f \"${KONFIG:-.}/tmux.conf\""
+# e: standard-feeling emacs -nw. -Q + dotemacs use an isolated package dir,
+# so the real ~/.emacs.d is untouched. stty frees C-s (save) from XOFF.
+stty -ixon 2>/dev/null
+alias e="emacs -nw -Q -l \"${KONFIG:-.}/dotemacs\""
 
 # graphic on top, colorful
 [ -f "$BANNER" ] && bash "${KONFIG:-.}/banner.sh" "$BANNER"
 
 # shortcuts under it
 printf '\033[1;38;5;141m shortcuts  \033[0m'
-for kv in "p:run" "c:check" "vi:edit" "tmux:mux" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
+for kv in "p:run" "c:check" "vi:edit" "e:emacs" "tmux:mux" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
   printf '\033[38;5;84m%s\033[0m\033[38;5;245m=%s  \033[0m' "${kv%%:*}" "${kv##*:}"
 done
 printf '\n\n'
