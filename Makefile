@@ -254,3 +254,13 @@ death: ## wipe ALL generated konfig dirs (cache/config/data/state/tmp)
 	@read -p 'Really? last chance [y/N]: ' b; [ "$$b" = y ] || { echo aborted; exit 1; }
 	@rm -rf $(DEATHDIRS)
 	@echo "gone. re-run any tool to rebuild its dir fresh."
+
+## gists (konfig only) ----------------------------------------
+
+# konfig-only bootstrap of the sibling repos. kept in a SEPARATE file pulled in
+# only when make runs inside konfig -- so the targets never reach the shared
+# boilerplate siblings include, not even their `make help` (which text-greps
+# MAKEFILE_LIST: gists.mk simply isn't on it in a sibling).
+ifeq ($(notdir $(CURDIR)),konfig)
+-include $(KONFIG)/gists.mk
+endif
