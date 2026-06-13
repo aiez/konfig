@@ -1,8 +1,6 @@
 {
-    "aspell.check": "auto",
-    "colorscheme": "catppuccin-mocha",
+    "colorscheme": "darcula",
     "keymenu": true,
-    "ruler": true,
     "relativeruler": true,
     "scrollbar": true,
     "softwrap": true,
