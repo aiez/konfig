@@ -38,6 +38,7 @@
     mode-line-format-right-align
     (vc-mode vc-mode) "  " "%l:%c " "%p "))
 (setq-default indent-tabs-mode nil)              ; spaces, not tabs
+(when (executable-find "aspell") (setq ispell-program-name "aspell"))
 (menu-bar-mode 1) (xterm-mouse-mode 1) (mouse-wheel-mode 1)  ; pulldown menus + mouse in -nw
 (cua-mode 1) (delete-selection-mode 1)           ; C-x/c/v/z + type-replaces-region
 (fido-vertical-mode 1)                           ; modern vertical minibuffer completion
@@ -114,6 +115,12 @@
      ["Refresh archives"   package-refresh-contents t])
     ["Settings (customize)" customize t]
     "--"
+    ("Spell"
+     ["Spell-check buffer"        ispell-buffer t]
+     ["Spell-check word at point" ispell-word t]
+     "--"
+     ["Check prose as you type" flyspell-mode      :style toggle :selected flyspell-mode]
+     ["Check code comments"     flyspell-prog-mode t])
     ("Lisp / SLIME"
      ["Start SLIME   (F6)" slime  t]
      ["Evaluate      (F5)" kf-eval t])))
