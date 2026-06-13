@@ -5,7 +5,10 @@
 
 ;; ## isolation ---------------------------------------------------
 ;; keep all package/state OUT of the user's ~/.emacs.d
-(setq user-emacs-directory (expand-file-name "~/.cache/emacs-konfig/")
+;; version-namespaced so a 30-built package dir is not loaded by 29 (byte-code
+;; version clash). terminal emacs and GUI Emacs.app keep separate package dirs.
+(setq user-emacs-directory
+      (expand-file-name (format "~/.cache/emacs-konfig/%d/" emacs-major-version))
       custom-file (expand-file-name "custom.el" user-emacs-directory))
 (make-directory user-emacs-directory t)
 
@@ -32,17 +35,18 @@
       scroll-margin 3           scroll-conservatively 101
       display-line-numbers-type 'relative          ; vim-style relative numbers
       mouse-wheel-progressive-speed nil)
-;; sharp, icon-free modeline (catppuccin colors it; right-align needs emacs 30)
+;; sharp, icon-free modeline (catppuccin colors it). right-align is emacs 30+,
+;; so include it only when available -> degrades to left-aligned on 28/29.
 (setq-default mode-line-format
-  '(" " (:eval (if (buffer-modified-p) "* " "  ")) "%b" "   " mode-name
-    mode-line-format-right-align
-    (vc-mode vc-mode) "  " "%l:%c " "%p "))
+  (append '(" " (:eval (if (buffer-modified-p) "* " "  ")) "%b" "   " mode-name "   ")
+          (and (boundp 'mode-line-format-right-align) '(mode-line-format-right-align))
+          '((vc-mode vc-mode) "  " "%l:%c " "%p ")))
 (setq-default indent-tabs-mode nil)              ; spaces, not tabs
 (when (executable-find "aspell") (setq ispell-program-name "aspell"))
 (menu-bar-mode 1) (xterm-mouse-mode 1) (mouse-wheel-mode 1)  ; pulldown menus + mouse in -nw
 (cua-mode 1) (delete-selection-mode 1)           ; C-x/c/v/z + type-replaces-region
 (fido-vertical-mode 1)                           ; modern vertical minibuffer completion
-(which-key-mode 1)                               ; popup of keys after a prefix
+(when (fboundp 'which-key-mode) (which-key-mode 1))  ; built in on emacs 30+ only
 (show-paren-mode 1) (electric-pair-mode 1)       ; match + auto-close brackets
 (global-hl-line-mode 1)                          ; highlight current line
 (global-auto-revert-mode 1) (recentf-mode 1) (save-place-mode 1)

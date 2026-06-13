@@ -32,13 +32,20 @@ alias tmux="tmux -f \"${KONFIG:-.}/tmux.conf\""
 # so the real ~/.emacs.d is untouched. stty frees C-s (save) from XOFF.
 stty -ixon 2>/dev/null
 alias e="emacs -nw -Q -l \"${KONFIG:-.}/dotemacs\""
+# ge: same config in a GUI window (real floating menus, no -nw menu overlay).
+# the terminal `emacs` here is built without a GUI, so use an Emacs.app binary.
+# KONFIG baked now (it is unset later); $a/$@ stay literal (resolve at call).
+eval "ge() {
+  for a in /Applications/Emacs.app \"\$HOME/Applications/Emacs.app\" /opt/homebrew/opt/emacs-mac/Emacs.app; do
+    [ -x \"\$a/Contents/MacOS/Emacs\" ] && { \"\$a/Contents/MacOS/Emacs\" -Q -l \"${KONFIG:-.}/dotemacs\" \"\$@\" & return; }
+  done; echo 'ge: no GUI Emacs.app found' >&2; }"
 
 # graphic on top, colorful
 [ -f "$BANNER" ] && bash "${KONFIG:-.}/banner.sh" "$BANNER"
 
 # shortcuts under it
 printf '\033[1;38;5;141m shortcuts  \033[0m'
-for kv in "p:run" "c:check" "vi:edit" "e:emacs" "tmux:mux" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
+for kv in "p:run" "c:check" "vi:edit" "e:emacs" "ge:gui" "tmux:mux" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
   printf '\033[38;5;84m%s\033[0m\033[38;5;245m=%s  \033[0m' "${kv%%:*}" "${kv##*:}"
 done
 printf '\n\n'
