@@ -12,6 +12,8 @@ GROOT ?= $(abspath $(KONFIG)/..)
 sync = @if [ -d "$(2)/.git" ]; then printf 'pull  %s\n' "$(2)"; git -C "$(2)" pull --ff-only -q; \
         else printf 'clone %s\n' "$(1)"; git clone -q "$(1)" "$(2)"; fi
 
+ezr:      ## clone/pull ezr
+	$(call sync,http://tiny.cc/ezr,$(GROOT)/ezr)
 fairnez:  ## clone/pull fairnez
 	$(call sync,http://tiny.cc/fairnez,$(GROOT)/fairnez)
 kah-lua:  ## clone/pull kah-lua
@@ -31,4 +33,4 @@ sand-box: ## clone/pull sand-box
 fyi:      ## clone/pull fyi (website; lives in ~/gits/timm)
 	$(call sync,https://github.com/timm/fyi,$(HOME)/gits/timm/fyi)
 
-gists: fairnez kah-lua lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
+gists: ezr fairnez kah-lua lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
