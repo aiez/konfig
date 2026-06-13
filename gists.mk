@@ -18,6 +18,10 @@ fairnez:  ## clone/pull fairnez
 	$(call sync,http://tiny.cc/fairnez,$(GROOT)/fairnez)
 kah-lua:  ## clone/pull kah-lua
 	$(call sync,http://tiny.cc/kah-lua,$(GROOT)/kah-lua)
+klassif:  ## clone/pull klassif (classification CSVs)
+	$(call sync,http://tiny.cc/klassif,$(GROOT)/klassif)
+textz:    ## clone/pull textz (text-mining CSVs)
+	$(call sync,http://tiny.cc/textz,$(GROOT)/textz)
 lithp:    ## clone/pull lithp (was lisp-)
 	$(call sync,http://tiny.cc/lithp,$(GROOT)/lithp)
 luamine:  ## clone/pull luamine (slug: tiny.cc/lull)
@@ -33,4 +37,4 @@ sand-box: ## clone/pull sand-box
 fyi:      ## clone/pull fyi (website; lives in ~/gits/timm)
 	$(call sync,https://github.com/timm/fyi,$(HOME)/gits/timm/fyi)
 
-gists: ezr fairnez kah-lua lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
+gists: ezr fairnez kah-lua klassif textz lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
