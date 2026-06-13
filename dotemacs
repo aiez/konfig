@@ -16,7 +16,9 @@
 (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
-(dolist (p '(slime catppuccin-theme))            ; which-key is built in on emacs 30
+;; language modes emacs lacks built-in (python/lisp/sh/tex/makefile ARE built-in);
+;; lua + markdown cover the gist ecosystem. which-key is built in on emacs 30.
+(dolist (p '(slime catppuccin-theme lua-mode markdown-mode))
   (unless (package-installed-p p)
     (unless package-archive-contents (package-refresh-contents))
     (condition-case nil                          ; stale index -> refresh once, retry
