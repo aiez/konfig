@@ -1,0 +1,37 @@
+filetype: lisp
+
+detect:
+    filename: "(emacs|zile)$|\\.(el|li?sp|scm|ss|rkt|cl|asd)$"
+
+rules:
+    # special forms / defining forms
+    - statement: "\\b(defun|defmacro|defvar|defparameter|defconstant|defclass|defmethod|defgeneric|defstruct|defpackage|deftype|defsubst|defcustom|defface|defgroup|define|define-minor-mode|define-derived-mode)\\b"
+    - statement: "\\b(lambda|let\\*?|flet|labels|macrolet|if|when|unless|cond|case|ecase|typecase|progn|prog1|prog2|block|return|return-from|loop|do\\*?|dolist|dotimes|while|catch|throw|unwind-protect|condition-case|handler-case|ignore-errors|and|or|not|setf|setq|setq-default|push|pop|incf|decf|quote|function|declare|the|values|multiple-value-bind|destructuring-bind|with-open-file|with-temp-buffer|with-slots|save-excursion|require|provide)\\b"
+    - identifier: "\\b(funcall|apply|mapcar|mapc|mapcan|maphash|reduce|remove-if|remove-if-not|cons|car|cdr|list|append|nth|nthcdr|assoc|member|gethash|format|princ|print|message|error|concat|string=|equal|eq|eql)\\b"
+
+    # keyword symbols  :foo
+    - symbol.tag: ":[a-zA-Z][a-zA-Z0-9+*/<>=!?._-]*"
+
+    # quoting / reader macros
+    - special: "#'|'|`|,@?|#\\\\."
+
+    # constants
+    - constant: "\\b([tT]|nil)\\b"
+    - constant.number: "\\b([0-9]+\\.?[0-9]*|#x[0-9a-fA-F]+|#b[01]+|#o[0-7]+)\\b"
+
+    # parens dim
+    - symbol.brackets: "[()]"
+
+    # strings (region so escapes/parens inside don't break)
+    - constant.string:
+        start: "\""
+        end: "\""
+        skip: "\\\\."
+        rules: []
+
+    # ; line comments  (the bundled lisp.yaml omits these entirely)
+    - comment:
+        start: ";"
+        end: "$"
+        rules:
+            - todo: "\\b(TODO|FIXME|XXX|NOTE|HACK)\\b"

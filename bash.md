@@ -30,7 +30,8 @@ so typing works normally until you hit ESC.
 
     p     python3 -B $MAIN     run the repo entry point
     c     make check           lint
-    vi    nvim --clean -u $KONFIG/init.lua   (isolated per APP)
+    vi    nvim  --clean -u $KONFIG/init.lua   (state -> konfig/nvim)
+    m     micro -config-dir ~/.config/konfig/micro  (catppuccin)
     tmux  tmux -f $KONFIG/tmux.conf
     gs    git status -s
     gd    git diff

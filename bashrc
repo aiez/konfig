@@ -23,29 +23,37 @@ PS1='\[\e[36m\]$(__pw)\[\e[33m\]$(__gp) \[\e[0m\][\!]\$ '
 alias p="python3 -B ${MAIN:-main.py}" c="make check"
 alias ll='ls -la' gs='git status -s' gd='git diff' gl='git log --oneline -20'
 alias cat='bat --paging=never' less='bat'  # groovy syntax color
-# vi: real file in $KONFIG, NVIM_APPNAME isolates plugin data
-alias vi="NVIM_APPNAME=${APP:-nvim} nvim --clean -u \"${KONFIG:-.}/init.lua\""
+# vi: real file in $KONFIG. NVIM_APPNAME=konfig/nvim puts ALL nvim state
+# (config/data/state/cache) under a konfig/ segment, never the real ~ nvim dirs.
+alias vi="NVIM_APPNAME=konfig/nvim nvim --clean -u \"${KONFIG:-.}/init.lua\""
 # tmux: repo config (path baked now; KONFIG unset below). No recursion: bash
 # won't re-expand the same word.
 alias tmux="tmux -f \"${KONFIG:-.}/tmux.conf\""
-# e: standard-feeling emacs -nw. -Q + dotemacs use an isolated package dir,
-# so the real ~/.emacs.d is untouched. stty frees C-s (save) from XOFF.
+# free C-s (save) from terminal XOFF flow-control, so micro/nvim can bind it.
 stty -ixon 2>/dev/null
-alias e="emacs -nw -Q -l \"${KONFIG:-.}/dotemacs\""
-# ge: same config in a GUI window (real floating menus, no -nw menu overlay).
-# the terminal `emacs` here is built without a GUI, so use an Emacs.app binary.
-# KONFIG baked now (it is unset later); $a/$@ stay literal (resolve at call).
-eval "ge() {
-  for a in /Applications/Emacs.app \"\$HOME/Applications/Emacs.app\" /opt/homebrew/opt/emacs-mac/Emacs.app; do
-    [ -x \"\$a/Contents/MacOS/Emacs\" ] && { \"\$a/Contents/MacOS/Emacs\" -Q -l \"${KONFIG:-.}/dotemacs\" \"\$@\" & return; }
-  done; echo 'ge: no GUI Emacs.app found' >&2; }"
+# m: simple micro. micro needs a config DIR but the gist is flat, so build the
+# dir under ~/.config/konfig/micro at startup, symlinking the flat repo files in.
+# plugins/themes micro downloads land there too -- never the real ~/.config/micro.
+__md="$HOME/.config/konfig/micro"
+mkdir -p "$__md/colorschemes" "$__md/syntax"
+ln -sf "${KONFIG:-$PWD}/micro.settings.json"   "$__md/settings.json"
+ln -sf "${KONFIG:-$PWD}/micro.bindings.json"   "$__md/bindings.json"
+ln -sf "${KONFIG:-$PWD}/micro.lisp.yaml"       "$__md/syntax/lisp.yaml"
+ln -sf "${KONFIG:-$PWD}/catppuccin-mocha.micro" "$__md/colorschemes/catppuccin-mocha.micro"
+# plugins: install any missing into the isolated dir (first run only; needs net).
+# tree=F5 sidebar, fzf=F6 fuzzy-open, aspell=F8 spell, detectindent=auto tabs.
+for __p in filemanager fzf aspell detectindent; do
+  [ -d "$__md/plug/$__p" ] || micro -config-dir "$__md" -plugin install "$__p" >/dev/null 2>&1
+done
+alias m="micro -config-dir \"$__md\""
+unset __md __p
 
 # graphic on top, colorful
 [ -f "$BANNER" ] && bash "${KONFIG:-.}/banner.sh" "$BANNER"
 
 # shortcuts under it
 printf '\033[1;38;5;141m shortcuts  \033[0m'
-for kv in "p:run" "c:check" "vi:edit" "e:emacs" "ge:gui" "tmux:mux" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
+for kv in "p:run" "c:check" "vi:edit" "m:micro" "tmux:mux" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
   printf '\033[38;5;84m%s\033[0m\033[38;5;245m=%s  \033[0m' "${kv%%:*}" "${kv##*:}"
 done
 printf '\n\n'

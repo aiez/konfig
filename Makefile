@@ -27,7 +27,7 @@ SRC     ?= *.$(EXT)              # source glob (hist, pdf, lint)
 COMMENT ?= \#|--|//              # comment regex (hist strips these)
 LINT    ?= ruff check $(SRC)     # check target command
 TOOLS   ?=                       # extra doctor checks: "cmd:use cmd:use"
-PKG     ?= gawk git neovim tmux  # doctor install hint
+PKG     ?= gawk git neovim tmux micro  # doctor install hint
 BANNER  ?= banner.txt            # ascii art shown atop help (if present)
 # make keeps trailing spaces before #, which break path concat; strip them
 override KONFIG := $(strip $(KONFIG))
@@ -51,7 +51,7 @@ konfig = @test -d $(KONFIG) || { \
            exit 1; }
 
 # base tools these targets need, plus per-repo TOOLS
-ALLTOOLS := gawk:help/hist git:push nvim:vi/sh tmux:mux $(TOOLS)
+ALLTOOLS := gawk:help/hist git:push nvim:vi/sh tmux:mux micro:m $(TOOLS)
 
 .DEFAULT_GOAL := help
 
@@ -146,7 +146,7 @@ F ?= $(firstword $(wildcard $(SRC))) # for vi
 vi: ## tuned nvim + catppuccin (config from $(KONFIG))
 	$(call need,nvim,vi)
 	$(call konfig)
-	@NVIM_APPNAME=$(APP) nvim --clean -u $(KONFIG)/init.lua $F
+	@NVIM_APPNAME=konfig/nvim nvim --clean -u $(KONFIG)/init.lua $F
 
 ## mux --------------------------------------------------------
 
@@ -215,17 +215,17 @@ checkers: ## play checkers     (brew install nbsdgames)
 
 ## pdf --------------------------------------------------------
 
-Font   ?= 5         # for ~/tmp/%.pdf
-Cols   ?= 3         # for ~/tmp/%.pdf
-Orient ?= landscape # for ~/tmp/%.pdf
-HL     ?= heavy     # for ~/tmp/%.pdf a2ps highlight level
-BREAK  ?=           # for ~/tmp/%.pdf form-feed marker (awk regex; empty=off)
-SSH    ?=           # for ~/tmp/%.pdf name of exported var w/ a2ps style sheet
+Font   ?= 5         # for ~/tmp/konfig/%.pdf
+Cols   ?= 3         # for ~/tmp/konfig/%.pdf
+Orient ?= landscape # for ~/tmp/konfig/%.pdf
+HL     ?= heavy     # for ~/tmp/konfig/%.pdf a2ps highlight level
+BREAK  ?=           # for ~/tmp/konfig/%.pdf form-feed marker (awk regex; empty=off)
+SSH    ?=           # for ~/tmp/konfig/%.pdf name of exported var w/ a2ps style sheet
 
-~/tmp/%.pdf : %.$(EXT) ## src -> pdf via a2ps
+~/tmp/konfig/%.pdf : %.$(EXT) ## src -> pdf via a2ps
 	$(call need,a2ps,pdf)
 	$(call need,ps2pdf,pdf)
-	@mkdir -p ~/tmp
+	@mkdir -p ~/tmp/konfig
 	@echo "pdfing : $@ ..."
 	@D=$$(mktemp -d); trap "rm -rf $$D" EXIT; \
 	 mkdir -p $$D/.a2ps; \
@@ -239,3 +239,18 @@ SSH    ?=           # for ~/tmp/%.pdf name of exported var w/ a2ps style sheet
 	      -M letter --font-size=$(Font) \
 	      --columns $(Cols) -o - | ps2pdf - $@
 	@$(OPEN) $@
+
+## death ------------------------------------------------------
+
+# every external dir konfig generates lives under a konfig/ segment of an XDG
+# base (+ ~/tmp/konfig). nuke them all; the gist itself is never touched.
+DEATHDIRS := ~/.cache/konfig ~/.config/konfig ~/.local/share/konfig \
+             ~/.local/state/konfig ~/tmp/konfig
+
+death: ## wipe ALL generated konfig dirs (cache/config/data/state/tmp)
+	@echo "These dirs will be DELETED (gist files are safe):"
+	@for d in $(DEATHDIRS); do echo "  $$d"; done
+	@read -p 'Type DESTROY to confirm: ' a; [ "$$a" = DESTROY ] || { echo aborted; exit 1; }
+	@read -p 'Really? last chance [y/N]: ' b; [ "$$b" = y ] || { echo aborted; exit 1; }
+	@rm -rf $(DEATHDIRS)
+	@echo "gone. re-run any tool to rebuild its dir fresh."

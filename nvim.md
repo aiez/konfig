@@ -10,9 +10,10 @@ config is untouched.
     make vi F=foo.py # open a specific file
     vi file          # alias inside `make sh`
 
-Under the hood: `NVIM_APPNAME=$(APP) nvim --clean -u $(KONFIG)/init.lua`.
-`--clean` ignores your ~/.config/nvim; `NVIM_APPNAME` gives each repo
-its own plugin/data dir, so plugins for one repo can't break another.
+Under the hood: `NVIM_APPNAME=konfig/nvim nvim --clean -u $(KONFIG)/init.lua`.
+`--clean` ignores your ~/.config/nvim; `NVIM_APPNAME=konfig/nvim` buries all
+state under `~/.{config,local/share,local/state,cache}/konfig/nvim` — never
+your real nvim dirs. `make death` wipes the lot.
 
 First run downloads three plugins via `vim.pack` (nvim >= 0.12):
 catppuccin, nvim-web-devicons, nvim-tree.
