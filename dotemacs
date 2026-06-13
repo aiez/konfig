@@ -30,7 +30,13 @@
       make-backup-files nil     create-lockfiles nil
       use-short-answers t       sentence-end-double-space nil
       scroll-margin 3           scroll-conservatively 101
+      display-line-numbers-type 'relative          ; vim-style relative numbers
       mouse-wheel-progressive-speed nil)
+;; sharp, icon-free modeline (catppuccin colors it; right-align needs emacs 30)
+(setq-default mode-line-format
+  '(" " (:eval (if (buffer-modified-p) "* " "  ")) "%b" "   " mode-name
+    mode-line-format-right-align
+    (vc-mode vc-mode) "  " "%l:%c " "%p "))
 (setq-default indent-tabs-mode nil)              ; spaces, not tabs
 (menu-bar-mode 1) (xterm-mouse-mode 1) (mouse-wheel-mode 1)  ; pulldown menus + mouse in -nw
 (cua-mode 1) (delete-selection-mode 1)           ; C-x/c/v/z + type-replaces-region
@@ -111,6 +117,18 @@
     ("Lisp / SLIME"
      ["Start SLIME   (F6)" slime  t]
      ["Evaluate      (F5)" kf-eval t])))
+
+;; ## trim the menu bar: kill emacs esoterica --------------------
+(dolist (m '(tools options help-menu minibuf))   ; drop whole menus
+  (define-key global-map (vector 'menu-bar m) nil))
+(dolist (e '(bookmark separator-bookmark))       ; Edit: no Bookmarks
+  (define-key global-map (vector 'menu-bar 'edit e) nil))
+(dolist (i '(insert-file recover-session dired project-dired project-open-file
+             separator-window new-window-below new-window-on-right one-window
+             separator-frame make-frame make-frame-on-display make-frame-on-monitor
+             delete-this-frame undelete-last-deleted-frame undelete-frame-mode
+             separator-tab make-tab close-tab separator-print print))
+  (define-key global-map (vector 'menu-bar 'file i) nil))  ; File: basics only
 
 ;; ## theme: catppuccin mocha by default --------------------------
 (kf-catppuccin 'mocha)
