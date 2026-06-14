@@ -21,7 +21,7 @@ make help
 
 **Sections:** [NAME](#name) | [SYNOPSIS](#synopsis) | [OPTIONS](#options) | [OUTPUT](#output) | [SEE ALSO](#see-also) | [LICENSE](#license) | [AUTHOR](#author)
 
-**Files:** [Makefile](#file-makefile) | [bashrc](#file-bashrc) | [init.lua](#file-init-lua) | [tmux.conf](#file-tmux-conf) | [micro.settings.json](#file-micro-settings-json) | [micro.bindings.json](#file-micro-bindings-json) | [micro.lisp.yaml](#file-micro-lisp-yaml) | [style_code.md](#file-style_code-md) | [style_gist.md](#file-style_gist-md) | [make.md](#file-make-md) | [bash.md](#file-bash-md) | [nvim.md](#file-nvim-md) | [micro.md](#file-micro-md) | [tmux.md](#file-tmux-md) | [banner.sh](#file-banner-sh) | [help.awk](#file-help-awk) | [hist.awk](#file-hist-awk) | [install.sh](#file-install-sh) | [Brewfile](#file-brewfile)
+**Files:** [Makefile](#file-makefile) | [bashrc](#file-bashrc) | [init.lua](#file-init-lua) | [tmux.conf](#file-tmux-conf) | [micro.settings.json](#file-micro-settings-json) | [micro.bindings.json](#file-micro-bindings-json) | [micro.lisp.yaml](#file-micro-lisp-yaml) | [style_code.md](#file-style_code-md) | [style_gist.md](#file-style_gist-md) | [newgist.md](#file-newgist-md) | [make.md](#file-make-md) | [bash.md](#file-bash-md) | [nvim.md](#file-nvim-md) | [micro.md](#file-micro-md) | [tmux.md](#file-tmux-md) | [banner.sh](#file-banner-sh) | [help.awk](#file-help-awk) | [hist.awk](#file-hist-awk) | [install.sh](#file-install-sh) | [Brewfile](#file-brewfile)
 
 ## NAME
 
@@ -51,6 +51,7 @@ make help
 
     Tool tutorials: make.md, bash.md, nvim.md, micro.md, tmux.md.
     Style law for sibling gists: style_code.md, style_gist.md.
+    Spinning up a new gist (tool or data): newgist.md.
 
 ## OUTPUT
 

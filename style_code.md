@@ -213,6 +213,23 @@ booleans, sets values, runs `test_<name>()` for any `--<name>`.
 
 Every test is `def test_X():` — discoverable by `grep '^def test_'`.
 
+## library vs app config (no global `the` in libraries)
+
+An **app** (ezr) owns a global `the = settings(__doc__)`. A **library**
+others import (gape, on PyPI) must NOT — a global config is a landmine
+in someone else's program. So library functions carry their tuning as
+keyword args, with the default living once at the lowest function:
+
+    def disty(data, row, **kw): minkowski(..., **kw)   # p flows through
+    def minkowski(vals, p=2): ...                       # default lives here
+    def same(xs, ys, cliff=0.195, conf=1.36): ...
+    def shuffle(lst, rng=random): ...                   # pass your own RNG
+
+`settings(s)` still parses `var=val` from a string into an `o`, but the
+*caller* (the app) owns the result; the library never reaches for it.
+gape.py is the canonical tiny stdlib-only library (records, io, rand,
+stats, columns, distance, bayes — one file, zero deps).
+
 ## numerics
 
     BIG  = inf            for "no cut yet" sentinel
