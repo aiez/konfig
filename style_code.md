@@ -216,7 +216,7 @@ Every test is `def test_X():` — discoverable by `grep '^def test_'`.
 ## library vs app config (no global `the` in libraries)
 
 An **app** (ezr) owns a global `the = settings(__doc__)`. A **library**
-others import (gape, on PyPI) must NOT — a global config is a landmine
+others import (nuff, on PyPI) must NOT — a global config is a landmine
 in someone else's program. So library functions carry their tuning as
 keyword args, with the default living once at the lowest function:
 
@@ -227,7 +227,7 @@ keyword args, with the default living once at the lowest function:
 
 `settings(s)` still parses `var=val` from a string into an `o`, but the
 *caller* (the app) owns the result; the library never reaches for it.
-gape.py is the canonical tiny stdlib-only library (records, io, rand,
+nuff.py is the canonical tiny stdlib-only library (records, io, rand,
 stats, columns, distance, bayes — one file, zero deps).
 
 ## numerics

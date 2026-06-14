@@ -1,13 +1,13 @@
 # newgist.md — spinning up a new gist tool or data repo
 
-Two repo kinds (see style_gist.md): **tool** gists (code: ezr, gape,
+Two repo kinds (see style_gist.md): **tool** gists (code: ezr, nuff,
 lithp, kah-lua, luamine, luk, repltut) and **data** gists (CSV only:
 optimiz=optimize, klassif=classify, textz=text-mining). Both ride
 konfig's shared Makefile.
 
 ## part vs whole — a section in a file, or a new gist?
 
-    import it  ->  a part   ->  a section in an existing file (gape.py)
+    import it  ->  a part   ->  a section in an existing file (nuff.py)
     run it     ->  a whole  ->  its own gist
 
 New gist when ANY of: an app/idea with its own CLI + identity (ezr);
