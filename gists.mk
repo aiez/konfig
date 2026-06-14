@@ -16,6 +16,8 @@ ezr:      ## clone/pull ezr
 	$(call sync,http://tiny.cc/ezr,$(GROOT)/ezr)
 fairnez:  ## clone/pull fairnez
 	$(call sync,http://tiny.cc/fairnez,$(GROOT)/fairnez)
+gape:     ## clone/pull gape (tiny python tricks lib)
+	$(call sync,http://tiny.cc/gape,$(GROOT)/gape)
 kah-lua:  ## clone/pull kah-lua
 	$(call sync,http://tiny.cc/kah-lua,$(GROOT)/kah-lua)
 klassif:  ## clone/pull klassif (classification CSVs)
@@ -37,4 +39,4 @@ sand-box: ## clone/pull sand-box
 fyi:      ## clone/pull fyi (website; lives in ~/gits/timm)
 	$(call sync,https://github.com/timm/fyi,$(HOME)/gits/timm/fyi)
 
-gists: ezr fairnez kah-lua klassif textz lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
+gists: ezr fairnez gape kah-lua klassif textz lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
