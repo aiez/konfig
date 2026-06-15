@@ -228,7 +228,7 @@ keyword args, with the default living once at the lowest function:
 `settings(s)` still parses `var=val` from a string into an `o`, but the
 *caller* (the app) owns the result; the library never reaches for it.
 nuff.py is the canonical tiny stdlib-only library (records, io, rand,
-stats, columns, distance, bayes — one file, zero deps).
+stats, columns, distance, bayes, tree — one file, zero deps).
 
 ## numerics
 
