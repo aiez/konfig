@@ -4,7 +4,7 @@
 ### [http://tiny.cc/konfig](http://tiny.cc/konfig)
 Portable, self-erasing boilerplate for all my gists: one Makefile
 (help, doctor, lint, push, pdf, tuned shells/editors/mux), one
-bashrc, one init.lua, one tmux.conf, plus isolated nvim/micro
+bashrc, init.lua + init.el, one tmux.conf, plus isolated nvim/micro
 configs. A project repo is just knobs plus `include $(KONFIG)/Makefile`.
 Every file these tools generate is buried under a `.../konfig/...`
 directory — never your real dotfiles — so `make death` wipes the lot
@@ -21,7 +21,7 @@ make help
 
 **Sections:** [NAME](#name) | [SYNOPSIS](#synopsis) | [OPTIONS](#options) | [OUTPUT](#output) | [SEE ALSO](#see-also) | [LICENSE](#license) | [AUTHOR](#author)
 
-**Files:** [Makefile](#file-makefile) | [bashrc](#file-bashrc) | [init.lua](#file-init-lua) | [tmux.conf](#file-tmux-conf) | [micro.settings.json](#file-micro-settings-json) | [micro.bindings.json](#file-micro-bindings-json) | [micro.lisp.yaml](#file-micro-lisp-yaml) | [style_code.md](#file-style_code-md) | [style_gist.md](#file-style_gist-md) | [newgist.md](#file-newgist-md) | [make.md](#file-make-md) | [bash.md](#file-bash-md) | [nvim.md](#file-nvim-md) | [micro.md](#file-micro-md) | [tmux.md](#file-tmux-md) | [banner.sh](#file-banner-sh) | [help.awk](#file-help-awk) | [hist.awk](#file-hist-awk) | [install.sh](#file-install-sh) | [Brewfile](#file-brewfile)
+**Files:** [Makefile](#file-makefile) | [bashrc](#file-bashrc) | [init.lua](#file-init-lua) | [init.el](#file-init-el) | [tmux.conf](#file-tmux-conf) | [micro.settings.json](#file-micro-settings-json) | [micro.bindings.json](#file-micro-bindings-json) | [micro.lisp.yaml](#file-micro-lisp-yaml) | [style_code.md](#file-style_code-md) | [style_gist.md](#file-style_gist-md) | [newgist.md](#file-newgist-md) | [make.md](#file-make-md) | [bash.md](#file-bash-md) | [nvim.md](#file-nvim-md) | [micro.md](#file-micro-md) | [tmux.md](#file-tmux-md) | [banner.sh](#file-banner-sh) | [help.awk](#file-help-awk) | [hist.awk](#file-hist-awk) | [install.sh](#file-install-sh) | [Brewfile](#file-brewfile)
 
 ## NAME
 

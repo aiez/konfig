@@ -26,6 +26,9 @@ alias cat='bat --paging=never' less='bat'  # groovy syntax color
 # vi: real file in $KONFIG. NVIM_APPNAME=konfig/nvim puts ALL nvim state
 # (config/data/state/cache) under a konfig/ segment, never the real ~ nvim dirs.
 alias vi="NVIM_APPNAME=konfig/nvim nvim --clean -u \"${KONFIG:-.}/init.lua\""
+# e: emacs in terminal (-nw), -Q skips real ~/.emacs.d, --init-directory parks
+# elpa/state under ~/.config/konfig/emacs (needs emacs 29+; like NVIM_APPNAME above).
+alias e="emacs -nw -Q --init-directory \"$HOME/.config/konfig/emacs\" -l \"${KONFIG:-.}/init.el\""
 # tmux: repo config (path baked now; KONFIG unset below). No recursion: bash
 # won't re-expand the same word.
 alias tmux="tmux -f \"${KONFIG:-.}/tmux.conf\""
@@ -53,7 +56,7 @@ unset __md __p
 
 # shortcuts under it
 printf '\033[1;38;5;141m shortcuts  \033[0m'
-for kv in "p:run" "c:check" "vi:edit" "m:micro" "tmux:mux" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
+for kv in "p:run" "c:check" "vi:edit" "e:emacs" "m:micro" "tmux:mux" "gs:status" "gd:diff" "gl:log" "ll:ls"; do
   printf '\033[38;5;84m%s\033[0m\033[38;5;245m=%s  \033[0m' "${kv%%:*}" "${kv##*:}"
 done
 printf '\n\n'

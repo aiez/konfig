@@ -148,6 +148,13 @@ vi: ## tuned nvim + catppuccin (config from $(KONFIG))
 	$(call konfig)
 	@NVIM_APPNAME=konfig/nvim nvim --clean -u $(KONFIG)/init.lua $F
 
+## el ---------------------------------------------------------
+
+el: ## tuned emacs (-nw): evil+org-babel+sly+magit, config from $(KONFIG)
+	$(call need,emacs,el)
+	$(call konfig)
+	@emacs -nw -Q --init-directory $(HOME)/.config/konfig/emacs -l $(KONFIG)/init.el $F
+
 ## mux --------------------------------------------------------
 
 mux: ## tuned tmux, private socket, config from $(KONFIG)
