@@ -18,6 +18,8 @@ fairnez:  ## clone/pull fairnez
 	$(call sync,http://tiny.cc/fairnez,$(GROOT)/fairnez)
 nuff:     ## clone/pull nuff (tiny python tricks lib)
 	$(call sync,http://tiny.cc/nuff,$(GROOT)/nuff)
+gistsite: ## clone/pull gistsite (render gists -> static html catalog)
+	$(call sync,http://tiny.cc/gistsite,$(GROOT)/gistsite)
 xomo:     ## clone/pull xomo (cocomo-ii + coqualmo: effort/defects/risk)
 	$(call sync,http://tiny.cc/xomo,$(GROOT)/xomo)
 kah-lua:  ## clone/pull kah-lua
@@ -41,4 +43,4 @@ sand-box: ## clone/pull sand-box
 fyi:      ## clone/pull fyi (website; lives in ~/gits/timm)
 	$(call sync,https://github.com/timm/fyi,$(HOME)/gits/timm/fyi)
 
-gists: ezr fairnez nuff xomo kah-lua klassif textz lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
+gists: ezr fairnez nuff gistsite xomo kah-lua klassif textz lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
