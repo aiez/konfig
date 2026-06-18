@@ -31,7 +31,7 @@ micro downloads land there too — never your real `~/.config/micro`.
     F5            toggle file-tree sidebar (filemanager)
     F6            fuzzy open / find-in-files (fzf)
     F7            reformat selection: python via `ruff format -`
-    F8            toggle spellcheck (aspell)
+    F8            toggle spellcheck (aspell, dict pinned en_US)
     Alt-|         pipe selection through a shell cmd (vim's `!`):
                   opens `textfilter `, type e.g. `sort -u` or
                   `python3 foo.py`, Enter -> output replaces selection
