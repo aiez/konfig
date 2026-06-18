@@ -5,7 +5,7 @@
     "scrollbar": true,
     "softwrap": true,
     "statusformatl": "$(filename) $(modified)($(line),$(col)) $(status.paste)| ft:$(opt:filetype)",
-    "statusformatr": "F5 tree  F6 find  F7 fmt  F8 spell  ^_ comment",
+    "statusformatr": "F5 tree  F6 find  F7 fmt  F8 spell  ^_ comment  ⌥| pipe",
     "tabsize": 2,
     "tabstospaces": true
 }

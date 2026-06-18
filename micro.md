@@ -32,6 +32,9 @@ micro downloads land there too — never your real `~/.config/micro`.
     F6            fuzzy open / find-in-files (fzf)
     F7            reformat selection: python via `ruff format -`
     F8            toggle spellcheck (aspell)
+    Alt-|         pipe selection through a shell cmd (vim's `!`):
+                  opens `textfilter `, type e.g. `sort -u` or
+                  `python3 foo.py`, Enter -> output replaces selection
     Ctrl-_  Alt-/ comment / uncomment line or selection
     Alt-v  Alt-h  split pane vertical / horizontal (Alt = ⌥ Option)
     Ctrl-w        cycle between panes

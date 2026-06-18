@@ -3,6 +3,7 @@
     "F6": "command:fzf",
     "F7": "command:textfilter ruff format -",
     "F8": "command:togglecheck",
+    "Alt-|": "command-edit:textfilter ",
     "Alt-v": "VSplit",
     "Alt-h": "HSplit",
     "Alt-/": "lua:comment.comment",
