@@ -7,6 +7,17 @@ vim.o.expandtab = true
 vim.o.shiftwidth, vim.o.tabstop, vim.o.softtabstop = 2, 2, 2
 vim.o.ignorecase, vim.o.smartcase = true, true
 vim.o.clipboard = "unnamedplus"
+vim.o.autoread = true                                 -- reload disk changes
+vim.o.updatetime = 250                                -- CursorHold fires faster
+
+-- autoread needs a poll: re-check on idle / buffer-enter / focus.
+vim.api.nvim_create_autocmd(
+  { "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" },
+  { callback = function()
+      if vim.fn.mode() ~= "c" and vim.fn.getcmdwintype() == "" then
+        vim.cmd("checktime")
+      end
+    end })
 
 -- plugins via vim.pack (nvim 0.12). --clean drops site from packpath; re-add it.
 vim.g.loaded_netrw, vim.g.loaded_netrwPlugin = 1, 1   -- nvim-tree replaces netrw
