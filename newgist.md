@@ -52,6 +52,10 @@ cheap; merging scattered gists back is not. Cap a one-file lib at
      fyi/etc/tools.txt   one blurb line  `<name>|short description`
      fyi/CLAUDE.md    a row in the curated list
    then `make tools` (pandoc) + push. Page lands at timm.fyi/tool-<name>.html.
+   If the gist ALSO ships a long-form `<name>.md` "tour" (genetic-stanza
+   tutorial), that routes to a BLOG post, not Tools — render it through
+   fyi's `etc/blog.html` template and copy its images into fyi
+   `assets/img/`. See fyi/CLAUDE.md "Tools vs Blog".
 
 6. PYPI (optional, code gists): `make push2pypi`. The FIRST upload of
    a NEW project needs an ACCOUNT-scoped token (project-scoped tokens

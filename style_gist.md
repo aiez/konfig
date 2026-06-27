@@ -181,17 +181,19 @@ and `## NAME`. Standard in every gist README:
 
     **Sections:** [NAME](#name) | [SYNOPSIS](#synopsis) | ... | [LICENSE](#license)
 
-    **Files:** [foo.py](#file-foo-py) | [bar.md](#file-bar-md) | ...
+    **Files:** [foo.py](http://tiny.cc/<gist>#file-foo-py) | [bar.md](http://tiny.cc/<gist>#file-bar-md) | ...
 
 - *Sections* — section anchors within this README. Labels in
   SHORT-CAPS, match the H2 headers. Skip sections that don't
   exist in the project.
-- *Files* — sibling files in the gist via `#file-<name>-<ext>`
-  (lowercase, dots/punctuation collapse into single `-`, never
-  double). E.g. `lib-.lisp` → `#file-lib-lisp` (NOT
-  `lib--lisp`); `fft-2small.lisp` → `#file-fft-2small-lisp`.
-  Omit the README itself and trivial files (banner.txt). Order
-  by importance, not alphabetical.
+- *Files* — sibling files via the ABSOLUTE
+  `http://tiny.cc/<gist>#file-<name>-<ext>` (so the links resolve
+  even when the README is read off the gist page). Anchor rule:
+  lowercase, dots/punctuation collapse into a single `-`, never
+  double. E.g. `lib-.lisp` → `#file-lib-lisp` (NOT `lib--lisp`);
+  `fft-2small.lisp` → `#file-fft-2small-lisp`. Omit the README
+  itself and trivial files (banner.txt, .gitignore). Order by
+  importance, not alphabetical.
 
 Keeps gist preview navigable without scrolling.
 
