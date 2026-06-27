@@ -185,7 +185,9 @@ and `## NAME`. Standard in every gist README:
 
 - *Sections* — section anchors within this README. Labels in
   SHORT-CAPS, match the H2 headers. Skip sections that don't
-  exist in the project.
+  exist in the project. These stay RELATIVE (`#name`,
+  `#synopsis`): they jump within the same README, so never put
+  tiny.cc here. (Contrast *Files*, which ARE absolute.)
 - *Files* — sibling files via the ABSOLUTE
   `http://tiny.cc/<gist>#file-<name>-<ext>` (so the links resolve
   even when the README is read off the gist page). Anchor rule:

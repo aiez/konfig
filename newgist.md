@@ -42,6 +42,9 @@ cheap; merging scattered gists back is not. Cap a one-file lib at
    shortener (you make tiny.cc/<name> -> the gist html_url by hand):
      cd ~/gists && rm -rf <name> && git clone <gist-git-url> <name>
      git -C <name> remote set-url origin http://tiny.cc/<name>
+   If `make push` ever no-ops on a fresh gist (push can't traverse the
+   tiny.cc redirect), give origin a real PUSH url while keeping tiny.cc
+   for fetch: `git remote set-url --push origin <gist-git-url>`.
 
 4. WIRE konfig: in `gists.mk` add a `<name>:` target (calls $(sync))
    and put `<name>` on the `gists:` line. Then `make <name>` clones or
