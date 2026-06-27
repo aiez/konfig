@@ -234,11 +234,11 @@ across every project + every CSV in optimiz/.
 
 ## files TOC anchors
 
-Link sibling files in the README TOC with gist anchors:
-`#file-<name>-<ext>` (lowercase, dots/punctuation collapse
-into single `-`, never double). E.g. `luamine.lua` →
-`#file-luamine-lua`; `lib-.lisp` → `#file-lib-lisp` (NOT
-`lib--lisp`).
+Link sibling files in the README TOC with ABSOLUTE gist URLs:
+`http://tiny.cc/<gist>#file-<name>-<ext>` (lowercase,
+dots/punctuation collapse into single `-`, never double). E.g.
+`luamine.lua` → `http://tiny.cc/luamine#file-luamine-lua`;
+`lib-.lisp` → `…#file-lib-lisp` (NOT `lib--lisp`).
 
 ## URLs
 
