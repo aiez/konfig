@@ -34,12 +34,12 @@ textz:    ## clone/pull textz (text-mining CSVs)
 	$(call sync,https://github.com/aiez/textz,$(GROOT)/textz)
 lithp:    ## clone/pull lithp (was lisp-)
 	$(call sync,https://github.com/aiez/lithp,$(GROOT)/lithp)
-luamine:  ## clone/pull luamine (slug: tiny.cc/lull)
-	$(call sync,http://tiny.cc/lull,$(GROOT)/luamine)
+luamine:  ## clone/pull luamine
+	$(call sync,https://github.com/aiez/luamine,$(GROOT)/luamine)
 luk:      ## clone/pull luk
 	$(call sync,https://github.com/aiez/luk,$(GROOT)/luk)
 optimiz:  ## clone/pull optimiz
-	$(call sync,https://gist.github.com/timm/078f9287b9871124c63be19f8c9ec5de,$(GROOT)/optimiz)
+	$(call sync,https://github.com/aiez/optimiz,$(GROOT)/optimiz)
 repltut:  ## clone/pull repltut
 	$(call sync,https://github.com/aiez/repltut,$(GROOT)/repltut)
 sand-box: ## clone/pull sand-box

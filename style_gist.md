@@ -151,7 +151,7 @@ Gist listing renders top of file. Pack the hook tight:
     line 1   <!-- copyright comment -->                (invisible)
     line 2   right-aligned badges (single line!)       (visible)
     line 3   blank
-    line 4   ### [http://tiny.cc/project](http://tiny.cc/project)
+    line 4   ### [github.com/aiez/project](https://github.com/aiez/project)
     line 5   one-paragraph pitch with concrete facts
     line 6   blank
     line 7   ```bash + `# install and test` + clone line
@@ -169,9 +169,9 @@ Standard four: Purpose · License · Language · Author.
 
 ### title
 
-    ### [http://tiny.cc/project](http://tiny.cc/project)
+    ### [github.com/aiez/project](https://github.com/aiez/project)
 
-H3, clickable tiny.cc URL. Skips repeating "Project — " noise; the
+H3, clickable github URL. Skips repeating "Project — " noise; the
 URL is the identifier.
 
 ### TOC bars (above NAME)
@@ -181,21 +181,16 @@ and `## NAME`. Standard in every gist README:
 
     **Sections:** [NAME](#name) | [SYNOPSIS](#synopsis) | ... | [LICENSE](#license)
 
-    **Files:** [foo.py](http://tiny.cc/<gist>#file-foo-py) | [bar.md](http://tiny.cc/<gist>#file-bar-md) | ...
+    **Files:** [foo.py](foo.py) | [bar.md](bar.md) | ...
 
 - *Sections* — section anchors within this README. Labels in
   SHORT-CAPS, match the H2 headers. Skip sections that don't
-  exist in the project. These stay RELATIVE (`#name`,
-  `#synopsis`): they jump within the same README, so never put
-  tiny.cc here. (Contrast *Files*, which ARE absolute.)
-- *Files* — sibling files via the ABSOLUTE
-  `http://tiny.cc/<gist>#file-<name>-<ext>` (so the links resolve
-  even when the README is read off the gist page). Anchor rule:
-  lowercase, dots/punctuation collapse into a single `-`, never
-  double. E.g. `lib-.lisp` → `#file-lib-lisp` (NOT `lib--lisp`);
-  `fft-2small.lisp` → `#file-fft-2small-lisp`. Omit the README
-  itself and trivial files (banner.txt, .gitignore). Order by
-  importance, not alphabetical.
+  exist in the project. These stay as in-page anchors (`#name`,
+  `#synopsis`): they jump within the same README.
+- *Files* — sibling files via RELATIVE links (`[foo.py](foo.py)`).
+  GitHub renders these against the repo, so no absolute prefix is
+  needed. Omit the README itself and trivial files (banner.txt,
+  .gitignore). Order by importance, not alphabetical.
 
 Keeps gist preview navigable without scrolling.
 
@@ -214,7 +209,7 @@ aligned text columns (no markdown table noise on mobile).
     TESTS         --test_X discoverable entry points
     OUTPUT        what a typical run prints
     EXIT          exit codes
-    SEE ALSO      sibling repos with tiny.cc URLs
+    SEE ALSO      sibling repos (github.com/aiez/...)
     LICENSE       MIT + choosealicense.com link
     AUTHOR        name + email
 
@@ -236,18 +231,16 @@ across every project + every CSV in optimiz/.
 
 ## files TOC anchors
 
-Link sibling files in the README TOC with ABSOLUTE gist URLs:
-`http://tiny.cc/<gist>#file-<name>-<ext>` (lowercase,
-dots/punctuation collapse into single `-`, never double). E.g.
-`luamine.lua` → `https://github.com/aiez/luamine#file-luamine-lua`;
-`lib-.lisp` → `…#file-lib-lisp` (NOT `lib--lisp`).
+Link sibling files in the README TOC with RELATIVE paths:
+`[luamine.lua](luamine.lua)`. GitHub resolves them against the
+repo, so no host prefix and no `#file-` anchors.
 
 ## URLs
 
-`tiny.cc/<reponame>` redirects to the gist. Use in:
+`github.com/aiez/<reponame>` is the canonical home. Use in:
 - README title
 - SEE ALSO cross-links
-- install snippet (`git clone http://tiny.cc/foo`)
+- install snippet (`git clone https://github.com/aiez/foo`)
 
 ## license
 

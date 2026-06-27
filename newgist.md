@@ -38,13 +38,9 @@ cheap; merging scattered gists back is not. Cap a one-file lib at
    payload = {"description":..,"public":true,"files":{name:{content}}}.
    BIG files (CSVs) go via git push afterward — the API caps payload.
 
-3. CLONE it back so the dir is git-backed, then point origin at the
-   shortener (you make tiny.cc/<name> -> the gist html_url by hand):
-     cd ~/gists && rm -rf <name> && git clone <gist-git-url> <name>
-     git -C <name> remote set-url origin http://tiny.cc/<name>
-   If `make push` ever no-ops on a fresh gist (push can't traverse the
-   tiny.cc redirect), give origin a real PUSH url while keeping tiny.cc
-   for fetch: `git remote set-url --push origin <gist-git-url>`.
+3. Create a public aiez repo from the dir and push:
+     gh repo create aiez/<name> --public --source=. --remote=origin --push
+   origin is now https://github.com/aiez/<name> (no shortener).
 
 4. WIRE konfig: in `gists.mk` add a `<name>:` target (calls $(sync))
    and put `<name>` on the `gists:` line. Then `make <name>` clones or
@@ -89,7 +85,7 @@ means touching ALL of them — grep first: `grep -rn '<x>' ~/gists ~/gits/timm/f
     PyPI                       (code gists) no rename API — upload the
                                new name, delete old project by hand
                                (web UI only); bump version if needed
-    you, by hand               tiny.cc/<x> redirect; revoke any token
+    you, by hand               github.com/aiez/<x>; revoke any token
 
 ## renaming or retiring a gist
 
@@ -98,7 +94,7 @@ Same list, run as a sweep:
 2. Rename in-repo: `git mv` files, edit contents, `make test`.
 3. Push the renamed files; PATCH the gist description; repoint origin.
 4. konfig + fyi edits above; `make tools`; commit konfig, fyi, gist.
-5. PyPI: upload new name, hand-delete old project; repoint tiny.cc.
+5. PyPI: upload new name, hand-delete old project.
 6. Retiring (not renaming): drop the `gists.mk` target + `gists:`
    entry, the fyi TOOLS/tools.txt/CLAUDE.md rows, `git rm` the fyi
    page; delete the gist + PyPI project by hand.
