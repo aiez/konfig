@@ -40,6 +40,8 @@ luk:      ## clone/pull luk
 	$(call sync,https://github.com/aiez/luk,$(GROOT)/luk)
 optimiz:  ## clone/pull optimiz
 	$(call sync,https://github.com/aiez/optimiz,$(GROOT)/optimiz)
+regress:  ## clone/pull regress (regression datasets)
+	$(call sync,https://github.com/aiez/regress,$(GROOT)/regress)
 repltut:  ## clone/pull repltut
 	$(call sync,https://github.com/aiez/repltut,$(GROOT)/repltut)
 sand-box: ## clone/pull sand-box
@@ -47,4 +49,4 @@ sand-box: ## clone/pull sand-box
 fyi:      ## clone/pull fyi (website; lives in ~/gits/timm)
 	$(call sync,https://github.com/timm/fyi,$(HOME)/gits/timm/fyi)
 
-gists: ezr ezr2 fairnez nuff skape gistsite xomo kah-lua klassif textz lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
+gists: ezr ezr2 fairnez nuff skape gistsite xomo kah-lua klassif textz lithp luamine luk optimiz regress repltut sand-box fyi ## clone/pull ALL the above
