@@ -13,37 +13,37 @@ sync = @if [ -d "$(2)/.git" ]; then printf 'pull  %s\n' "$(2)"; git -C "$(2)" pu
         else printf 'clone %s\n' "$(1)"; git clone -q "$(1)" "$(2)"; fi
 
 ezr:      ## clone/pull ezr
-	$(call sync,http://tiny.cc/ezr,$(GROOT)/ezr)
+	$(call sync,https://github.com/aiez/ezr,$(GROOT)/ezr)
 ezr2:     ## clone/pull ezr2 (landscape + dual-mode tree)
-	$(call sync,http://tiny.cc/ezr2,$(GROOT)/ezr2)
+	$(call sync,https://github.com/aiez/ezr2,$(GROOT)/ezr2)
 fairnez:  ## clone/pull fairnez
-	$(call sync,http://tiny.cc/fairnez,$(GROOT)/fairnez)
+	$(call sync,https://github.com/aiez/fairnez,$(GROOT)/fairnez)
 nuff:     ## clone/pull nuff (tiny python tricks lib)
-	$(call sync,http://tiny.cc/nuff,$(GROOT)/nuff)
+	$(call sync,https://github.com/aiez/nuff,$(GROOT)/nuff)
 skape:    ## clone/pull skape (FastMap landscape active learner)
-	$(call sync,http://tiny.cc/skape,$(GROOT)/skape)
+	$(call sync,https://github.com/aiez/skape,$(GROOT)/skape)
 gistsite: ## clone/pull gistsite (render gists -> static html catalog)
-	$(call sync,http://tiny.cc/gistsite,$(GROOT)/gistsite)
+	$(call sync,https://github.com/aiez/gistsite,$(GROOT)/gistsite)
 xomo:     ## clone/pull xomo (cocomo-ii + coqualmo: effort/defects/risk)
 	$(call sync,http://tiny.cc/xomo,$(GROOT)/xomo)
 kah-lua:  ## clone/pull kah-lua
-	$(call sync,http://tiny.cc/kah-lua,$(GROOT)/kah-lua)
+	$(call sync,https://github.com/aiez/kahlua,$(GROOT)/kah-lua)
 klassif:  ## clone/pull klassif (classification CSVs)
-	$(call sync,http://tiny.cc/klassif,$(GROOT)/klassif)
+	$(call sync,https://github.com/aiez/klassif,$(GROOT)/klassif)
 textz:    ## clone/pull textz (text-mining CSVs)
-	$(call sync,http://tiny.cc/textz,$(GROOT)/textz)
+	$(call sync,https://github.com/aiez/textz,$(GROOT)/textz)
 lithp:    ## clone/pull lithp (was lisp-)
-	$(call sync,http://tiny.cc/lithp,$(GROOT)/lithp)
+	$(call sync,https://github.com/aiez/lithp,$(GROOT)/lithp)
 luamine:  ## clone/pull luamine (slug: tiny.cc/lull)
 	$(call sync,http://tiny.cc/lull,$(GROOT)/luamine)
 luk:      ## clone/pull luk
-	$(call sync,http://tiny.cc/luk,$(GROOT)/luk)
+	$(call sync,https://github.com/aiez/luk,$(GROOT)/luk)
 optimiz:  ## clone/pull optimiz
 	$(call sync,https://gist.github.com/timm/078f9287b9871124c63be19f8c9ec5de,$(GROOT)/optimiz)
 repltut:  ## clone/pull repltut
-	$(call sync,http://tiny.cc/repltut,$(GROOT)/repltut)
+	$(call sync,https://github.com/aiez/repltut,$(GROOT)/repltut)
 sand-box: ## clone/pull sand-box
-	$(call sync,http://tiny.cc/sand-box,$(GROOT)/sand-box)
+	$(call sync,https://github.com/aiez/sandbox,$(GROOT)/sand-box)
 fyi:      ## clone/pull fyi (website; lives in ~/gits/timm)
 	$(call sync,https://github.com/timm/fyi,$(HOME)/gits/timm/fyi)
 

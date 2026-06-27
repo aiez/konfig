@@ -53,7 +53,7 @@ the include — minimum viable Makefile:
     PKG    := gawk neovim tmux
 
     $(KONFIG)/Makefile:
-    	@test -f $@ || { echo "missing konfig: git clone http://tiny.cc/konfig $(KONFIG)"; exit 1; }
+    	@test -f $@ || { echo "missing konfig: git clone https://github.com/aiez/konfig $(KONFIG)"; exit 1; }
     include $(KONFIG)/Makefile
 
 ## cross-repo references (no naked paths)
@@ -239,7 +239,7 @@ across every project + every CSV in optimiz/.
 Link sibling files in the README TOC with ABSOLUTE gist URLs:
 `http://tiny.cc/<gist>#file-<name>-<ext>` (lowercase,
 dots/punctuation collapse into single `-`, never double). E.g.
-`luamine.lua` → `http://tiny.cc/luamine#file-luamine-lua`;
+`luamine.lua` → `https://github.com/aiez/luamine#file-luamine-lua`;
 `lib-.lisp` → `…#file-lib-lisp` (NOT `lib--lisp`).
 
 ## URLs

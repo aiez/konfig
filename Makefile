@@ -47,7 +47,7 @@ need = @command -v $(1) >/dev/null || { \
 
 konfig = @test -d $(KONFIG) || { \
            printf "missing dir: %s\n" "$(KONFIG)"; \
-           printf "clone: git clone http://tiny.cc/konfig %s\n" "$(KONFIG)"; \
+           printf "clone: git clone https://github.com/aiez/konfig %s\n" "$(KONFIG)"; \
            exit 1; }
 
 # base tools these targets need, plus per-repo TOOLS

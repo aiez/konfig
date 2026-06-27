@@ -33,7 +33,7 @@ A repo's own Makefile is just knobs + `include $(KONFIG)/Makefile`.
     PKG    := lua luacheck gawk neovim tmux
 
     $(KONFIG)/Makefile:
-    	@test -f $@ || { echo "missing konfig: git clone http://tiny.cc/konfig $(KONFIG)"; exit 1; }
+    	@test -f $@ || { echo "missing konfig: git clone https://github.com/aiez/konfig $(KONFIG)"; exit 1; }
     include $(KONFIG)/Makefile
 
 Data-only repos: keep just KONFIG, APP, PKG, the guard, the include.

@@ -1,7 +1,7 @@
 <!-- Copyright (c) 2026 Tim Menzies, MIT License https://opensource.org/licenses/MIT -->
 <a href="https://timm.fyi"><img align="right" alt="Author" src="https://img.shields.io/badge/Author-timm-dc143c?logo=readme&logoColor=white"></a><img align="right" alt="Language" src="https://img.shields.io/badge/Language-Shell-000080?logo=sh&logoColor=white"><a href="https://choosealicense.com/licenses/mit/"><img align="right" alt="License" src="https://img.shields.io/badge/License-MIT-32cd32?logo=open-source-initiative&logoColor=white"></a><img align="right" alt="Purpose" src="https://img.shields.io/badge/Purpose-Shell·Teaching-7b68ee?logo=githubcopilot&logoColor=white">
 
-### [http://tiny.cc/konfig](http://tiny.cc/konfig)
+### [https://github.com/aiez/konfig](https://github.com/aiez/konfig)
 Portable, self-erasing boilerplate for all my gists: one Makefile
 (help, doctor, lint, push, pdf, tuned shells/editors/mux), one
 bashrc, init.lua + init.el, one tmux.conf, plus isolated nvim/micro
@@ -12,8 +12,8 @@ and leaves your machine spotless.
 
 ```bash
 # install and test-drive from any sibling gist
-git clone http://tiny.cc/konfig
-git clone http://tiny.cc/luamine luamine && cd luamine
+git clone https://github.com/aiez/konfig
+git clone https://github.com/aiez/luamine luamine && cd luamine
 make help
 ```
 
@@ -69,10 +69,10 @@ make help
 
 ## SEE ALSO
 
-    luamine   http://tiny.cc/luamine   Lua data mining
-    optimiz   http://tiny.cc/optimiz   example datasets
-    fft       http://tiny.cc/fft       FFTs + regression trees
-    repltut   http://tiny.cc/repltut   REPL tutorial prompts
+    luamine   https://github.com/aiez/luamine   Lua data mining
+    optimiz   https://github.com/aiez/optimiz   example datasets
+    fft       https://github.com/aiez/fft       FFTs + regression trees
+    repltut   https://github.com/aiez/repltut   REPL tutorial prompts
 
 ## LICENSE
 

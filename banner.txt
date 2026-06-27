@@ -4,5 +4,5 @@
  |   <  | (_) | | | | | |  _| | | | (_| |
  |_|\_\  \___/  |_| |_| |_|   |_|  \__, |
                                    |___/ 
-all my config files. http://tiny.cc/konfig
+all my config files. https://github.com/aiez/konfig
 "plain text, sharp tools, no magic."
