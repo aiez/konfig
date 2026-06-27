@@ -25,7 +25,7 @@ skape:    ## clone/pull skape (FastMap landscape active learner)
 gistsite: ## clone/pull gistsite (render gists -> static html catalog)
 	$(call sync,https://github.com/aiez/gistsite,$(GROOT)/gistsite)
 xomo:     ## clone/pull xomo (cocomo-ii + coqualmo: effort/defects/risk)
-	$(call sync,http://tiny.cc/xomo,$(GROOT)/xomo)
+	$(call sync,https://github.com/aiez/xomo,$(GROOT)/xomo)
 kah-lua:  ## clone/pull kah-lua
 	$(call sync,https://github.com/aiez/kahlua,$(GROOT)/kah-lua)
 klassif:  ## clone/pull klassif (classification CSVs)
