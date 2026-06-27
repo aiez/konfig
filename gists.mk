@@ -14,6 +14,8 @@ sync = @if [ -d "$(2)/.git" ]; then printf 'pull  %s\n' "$(2)"; git -C "$(2)" pu
 
 ezr:      ## clone/pull ezr
 	$(call sync,http://tiny.cc/ezr,$(GROOT)/ezr)
+ezr2:     ## clone/pull ezr2 (landscape + dual-mode tree)
+	$(call sync,http://tiny.cc/ezr2,$(GROOT)/ezr2)
 fairnez:  ## clone/pull fairnez
 	$(call sync,http://tiny.cc/fairnez,$(GROOT)/fairnez)
 nuff:     ## clone/pull nuff (tiny python tricks lib)
@@ -45,4 +47,4 @@ sand-box: ## clone/pull sand-box
 fyi:      ## clone/pull fyi (website; lives in ~/gits/timm)
 	$(call sync,https://github.com/timm/fyi,$(HOME)/gits/timm/fyi)
 
-gists: ezr fairnez nuff skape gistsite xomo kah-lua klassif textz lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above
+gists: ezr ezr2 fairnez nuff skape gistsite xomo kah-lua klassif textz lithp luamine luk optimiz repltut sand-box fyi ## clone/pull ALL the above

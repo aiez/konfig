@@ -247,6 +247,15 @@ SSH    ?=           # for ~/tmp/konfig/%.pdf name of exported var w/ a2ps style 
 	      --columns $(Cols) -o - | ps2pdf - $@
 	@$(OPEN) $@
 
+MDSTYLE ?= tango        # pandoc code-token theme for `pretty` (light)
+pretty: ## $(f).md -> self-contained html (images embedded) + open. usage: make f=NAME pretty
+	$(call need,pandoc,pretty)
+	@test -n "$(f)" || { echo "usage: make f=<basename> pretty"; exit 1; }
+	@mkdir -p ~/tmp/konfig
+	@pandoc $(f).md -o ~/tmp/konfig/$(f).html --embed-resources --standalone \
+	        --highlight-style=$(MDSTYLE) --include-in-header=$(KONFIG)/pretty.css
+	@$(OPEN) ~/tmp/konfig/$(f).html
+
 ## death ------------------------------------------------------
 
 # every external dir konfig generates lives under a konfig/ segment of an XDG
