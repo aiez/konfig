@@ -23,6 +23,11 @@ PS1='\[\e[36m\]$(__pw)\[\e[33m\]$(__gp) \[\e[0m\][\!]\$ '
 alias p="python3 -B ${MAIN:-main.py}" c="make check"
 alias ll='ls -la' gs='git status -s' gd='git diff' gl='git log --oneline -20'
 alias cat='bat --paging=never' less='bat'  # groovy syntax color
+# ls: color file types -- dirs, symlinks, exec, sockets/fifos/setuid & special.
+# GNU ls wants --color; BSD (macOS default) wants -G. probe once, alias to fit.
+# ll re-expands ls, so it inherits the color too.
+export CLICOLOR=1
+if ls --color=auto >/dev/null 2>&1; then alias ls='ls --color=auto'; else alias ls='ls -G'; fi
 # vi: real file in $KONFIG. NVIM_APPNAME=konfig/nvim puts ALL nvim state
 # (config/data/state/cache) under a konfig/ segment, never the real ~ nvim dirs.
 alias vi="NVIM_APPNAME=konfig/nvim nvim --clean -u \"${KONFIG:-.}/init.lua\""
