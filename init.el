@@ -28,8 +28,8 @@
 (use-package evil-collection :after evil :config (evil-collection-init))
 
 ;; minibuffer: vertical candidate list + inline annotations
-(use-package vertico :config (vertico-mode 1))
-(use-package marginalia :config (marginalia-mode 1))
+;;(use-package vertico :config (vertico-mode 1))
+;;(use-package marginalia :config (marginalia-mode 1))
 
 ;; org + babel: run python/shell/lisp blocks inline with C-c C-c, pass data between langs
 (use-package org)
