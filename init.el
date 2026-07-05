@@ -4,7 +4,12 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-(unless package-archive-contents (package-refresh-contents))
+
+
+(unless (assq 'magit package-archive-contents)   ;; MELPA-only sentinel
+  (package-refresh-contents))
+
+
 (setq use-package-always-ensure t)
 
 ;; core editor: menu bar kept, tool/scroll bars off, line numbers, bigger font, dark theme (nvim mocha)
