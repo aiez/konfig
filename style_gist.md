@@ -18,7 +18,8 @@ data. No code/data/config mixed in one repo.
 ## repo file layout
 
     <project>/
-      ,project.md      README; comma-prefix sorts to top of gist listing
+      README.md        README (GitHub renders it; on gists, use a
+                       ,project.md name so it sorts to the top)
       Makefile         knobs (APP/MAIN/EXT/...) then include konfig
       project.py       single-file source (see style_code.md)
       banner.txt       ascii art shown by `make help` / `make sh`
@@ -142,7 +143,7 @@ Silent if missing. Local file sources last → wins on conflict.
 Use for per-project aliases (e.g. `alias r='sbcl --script ...'`),
 language-specific keymaps, project-specific tmux panes.
 
-## README (`,project.md`)
+## README (`README.md`; `,project.md` on gists)
 
 ### first 7 lines = gist preview hook
 
