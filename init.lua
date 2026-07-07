@@ -66,7 +66,7 @@ pcall(dofile, vim.fn.getcwd() .. "/init.local.lua")
 -- vim.o.splitright = true
 -- vim.o.wrap = true
 -- vim.o.linebreak = true
--- vim.o.fillchars = "vert:│,eob:·"
+-- vim.o.fillchars = "vert:\u{2502},eob:\u{00b7}"
 -- vim.o.winborder = "rounded"
 -- vim.o.splitkeep = "screen"
 -- vim.o.smoothscroll = true
