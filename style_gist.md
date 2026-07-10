@@ -18,7 +18,9 @@ data. No code/data/config mixed in one repo.
 ## repo file layout
 
     <project>/
-      ,project.md      README; comma-prefix sorts to top of gist listing
+      README.md        README (GitHub renders it; on gists, use a
+                       ,project.md name so it sorts to the top)
+      CLAUDE.md        points coding agents at these style docs
       Makefile         knobs (APP/MAIN/EXT/...) then include konfig
       project.py       single-file source (see style_code.md)
       banner.txt       ascii art shown by `make help` / `make sh`
@@ -84,6 +86,11 @@ every gist follows.
     DOOT = os.environ.get("DOOT") or find_up("konfig", then="..")
     DATA = f"{DOOT}/optimiz/auto93.csv"
 
+    # when the docstring SSOT documents a `../` default: keep the
+    # docstring verbatim, remap once right after parsing it
+    the = settings(__doc__)
+    the.file = re.sub(r"^\.\./", DOOT + "/", the.file)
+
 Sole sanctioned naked path: the `KONFIG ?= ../konfig` bootstrap
 default (and `DOOT` derived from it). Everything else hangs off the
 root var. Doc/README example commands may show `../optimiz` for
@@ -103,6 +110,15 @@ konfig.
 
 Konfig's `check` = static lint. Local `test` = runtime behaviour.
 Both kept separate so CI can call them independently.
+
+Never hardcode a self-check count in a recipe (`grep "4/4 ok"`
+goes stale the day a test is added, then fails green runs).
+Compare passed==total instead -- gawk, not grep backrefs (user
+greps may be ugrep, which has no BRE backrefs):
+
+    @python3 -B app.py --checks | \
+      gawk -F'[ /]' '$$2==$$3 && $$3>0 && $$4=="ok"{f=1} END{exit !f}' \
+      && echo "ok checks"
 
 ### one rule per test, UPPERCASE-discovered
 
@@ -142,7 +158,7 @@ Silent if missing. Local file sources last → wins on conflict.
 Use for per-project aliases (e.g. `alias r='sbcl --script ...'`),
 language-specific keymaps, project-specific tmux panes.
 
-## README (`,project.md`)
+## README (`README.md`; `,project.md` on gists)
 
 ### first 7 lines = gist preview hook
 

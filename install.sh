@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — set up this machine from konfig's Brewfile.
+# install.sh -- set up this machine from konfig's Brewfile.
 #   ./install.sh        install everything in ./Brewfile
 #   ./install.sh dump   regenerate ./Brewfile from current brew state
 #   ./install.sh check  list Brewfile entries not yet installed
@@ -22,7 +22,7 @@ fi
 case "${1:-install}" in
   dump)
     {
-      echo "# Brewfile — konfig. regenerate: ./install.sh dump"
+      echo "# Brewfile -- konfig. regenerate: ./install.sh dump"
       echo "# install all: ./install.sh   (or: brew bundle)"
       echo
       brew tap                            | sed 's/^/tap "/;  s/$/"/'

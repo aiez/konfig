@@ -8,6 +8,10 @@
 # # comment would leave trailing spaces inside the path (see KONFIG strip note).
 GROOT ?= $(abspath $(KONFIG)/..)
 
+# dest for the fyi website checkout (not an aiez gist; like KONFIG,
+# the ?= default is the one allowed literal -- override to relocate)
+FYI ?= $(HOME)/gits/timm/fyi
+
 # $(call sync,clone-url,dest): clone if the dest is absent, else fast-forward pull
 sync = @if [ -d "$(2)/.git" ]; then printf 'pull  %s\n' "$(2)"; git -C "$(2)" pull --ff-only -q; \
         else printf 'clone %s\n' "$(1)"; git clone -q "$(1)" "$(2)"; fi
@@ -46,7 +50,7 @@ repltut:  ## clone/pull repltut
 	$(call sync,https://github.com/aiez/repltut,$(GROOT)/repltut)
 sand-box: ## clone/pull sand-box
 	$(call sync,https://github.com/aiez/sandbox,$(GROOT)/sand-box)
-fyi:      ## clone/pull fyi (website; lives in ~/gits/timm)
-	$(call sync,https://github.com/timm/fyi,$(HOME)/gits/timm/fyi)
+fyi:      ## clone/pull fyi (website; set FYI to relocate)
+	$(call sync,https://github.com/timm/fyi,$(FYI))
 
 gists: ezr ezr2 fairnez nuff skape gistsite xomo kah-lua klassif textz lithp luamine luk optimiz regress repltut sand-box fyi ## clone/pull ALL the above

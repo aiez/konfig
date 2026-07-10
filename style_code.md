@@ -11,7 +11,10 @@ Shared across every gist, any language:
 - **LoB**  locality of behavior: a type's methods + the funcs on it
   live together (wrapper next to its algorithm). Exception:
   cross-type op-families may cluster (all ctors, all `add`s).
-- **SSOT** config from one help/doc string
+- **SSOT** config from one help/doc string. Scope = one repo:
+  gists are standalone, so small function batteries may repeat
+  across repos (kah.lua / luamine lib.lua / luk lib.luk) by
+  design -- do not "reconcile" them
 - **BOB**  funcs <=5 lines — warn, not mandatory
 - **BAIL** one-line guards
 - **KISS** one func, one job
