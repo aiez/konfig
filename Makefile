@@ -222,7 +222,7 @@ checkers: ## play checkers     (brew install nbsdgames)
 
 ## pdf --------------------------------------------------------
 
-Font   ?= 5         # for ~/tmp/konfig/%.pdf
+Font   ?= 4.5         # for ~/tmp/konfig/%.pdf
 Cols   ?= 3         # for ~/tmp/konfig/%.pdf
 Orient ?= landscape # for ~/tmp/konfig/%.pdf
 HL     ?= heavy     # for ~/tmp/konfig/%.pdf a2ps highlight level
