@@ -17,7 +17,7 @@ ifeq ($(origin MAIN),environment)
 override MAIN := main.py
 endif
 ifeq ($(origin BANNER),environment)
-override BANNER := banner.txt
+override BANNER := etc/banner.txt
 endif
 APP     ?= $(notdir $(CURDIR))   # NVIM_APPNAME / tmux socket / session
 MAIN    ?= main.py               # entry point (p alias in bashrc)
@@ -28,7 +28,7 @@ COMMENT ?= \#|--|//              # comment regex (hist strips these)
 LINT    ?= ruff check $(SRC)     # check target command
 TOOLS   ?=                       # extra doctor checks: "cmd:use cmd:use"
 PKG     ?= gawk git neovim tmux micro  # doctor install hint
-BANNER  ?= banner.txt            # ascii art shown atop help (if present)
+BANNER  ?= etc/banner.txt        # ascii art shown atop help (if present)
 # make keeps trailing spaces before #, which break path concat; strip them
 override KONFIG := $(strip $(KONFIG))
 # DOOT: gists root (dir holding konfig + sibling gists). env wins; else

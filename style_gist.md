@@ -23,7 +23,7 @@ data. No code/data/config mixed in one repo.
       CLAUDE.md        points coding agents at these style docs
       Makefile         knobs (APP/MAIN/EXT/...) then include konfig
       project.py       single-file source (see style_code.md)
-      banner.txt       ascii art shown by `make help` / `make sh`
+      etc/banner.txt   ascii art shown by `make help` / `make sh`
 
 ## Makefile pattern
 
