@@ -113,7 +113,7 @@ pushs: ## commit+push every sibling gist; prompts only if dirty
 	    [ -z "$$m" ] && { echo "  skipped"; return 0; }; \
 	    git add -A && git commit -m "$$m" && git push; \
 	  elif [ "$$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)" != "0" ]; then \
-	    git push; \
+	    git pull --rebase --autostash && git push; \
 	  else echo "  clean + synced"; fi; \
 	}; $(eachgist)
 
